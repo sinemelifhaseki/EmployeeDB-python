@@ -11,12 +11,11 @@ def create_app():
     #app.config.from_object("settings")
 
     app.add_url_rule("/", view_func=views.home_page)
-    app.add_url_rule("/listemployee", view_func=views.list_page)
+    app.add_url_rule("/employees", view_func=views.list_page, methods=["GET", "POST"])
     app.add_url_rule("/employees/<int:employee_key>", view_func=views.employee_page)
+    app.add_url_rule("/new-employee", view_func=views.employee_add_page, methods=["GET", "POST"])
 
     db = Database()
-    db.add_employee(Employee("Sinem Elif Haseki", age=22))
-    db.add_employee(Employee("Hakan Sarac"))
     app.config["db"] = db
 
 

@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block title %}Edit employee{% endblock %}
+{% block content %}
+    <h1 class="title">Edit employee</h1>
+
+    <form action="" method="post" name="employee_edit">
+      <div class="field">
+        <label for="title" class="label">Title</label>
+        <div class="control">
+          <input type="text" name="title" class="input" required="required"/>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="age" class="label">Age</label>
+        <div class="control">
+          <input type="number" name="age" class="input"
+                 min="{{ min_age }}" max="{{ max_age }}"/>
+        </div>
+      </div>
+
+      <div class="field is-grouped">
+        <div class="control">
+          <button class="button is-primary is-small">Save</button>
+        </div>
+      </div>
+    </form>
+{% endblock %}

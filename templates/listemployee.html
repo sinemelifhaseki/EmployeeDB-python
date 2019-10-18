@@ -5,10 +5,14 @@
     <p>List of current employees:</p>
     
     {% if employees %}
+    <form action="" method="post" name="employee_list">
     <table class="table is-striped is-fullwidth">
       {% for employee_key, employee in employees %}
       <tr>
         <td>
+            <label class="checkbox">
+                <input type="checkbox" name="employee_keys" value="{{ employee_key }}"/>
+              </label>
           {{ employee.title }}
           {% if employee.age %} ({{ employee.age }}) {% endif %}
           <a href="{{ url_for('employee_page', employee_key=employee_key) }}">
@@ -19,7 +23,12 @@
       </tr>
       {% endfor %}
     </table>
+    
+    <div class="field is-grouped">
+        <div class="control">
+          <button class="button is-danger is-small">Delete</button>
+        </div>
+      </div>
+    </form>
     {% endif %}
-
-
 {% endblock %}
