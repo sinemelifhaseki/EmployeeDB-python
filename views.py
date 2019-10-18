@@ -11,3 +11,10 @@ def list_page():
     db = current_app.config["db"]
     employees = db.get_employees()
     return render_template("listemployee.html", employees=sorted(employees))
+
+def employee_page(movie_key):
+    db = current_app.config["db"]
+    employee = db.get_employee(employee_key)
+    if employee is None:
+        abort(404)
+    return render_template("employee.html", employee=employee)

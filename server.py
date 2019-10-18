@@ -12,6 +12,7 @@ def create_app():
 
     app.add_url_rule("/", view_func=views.home_page)
     app.add_url_rule("/listemployee", view_func=views.list_page)
+    app.add_url_rule("/employees/<int:employee_key>", view_func=views.employee_page)
 
     db = Database()
     db.add_employee(Employee("Sinem Elif Haseki", age=22))

@@ -11,6 +11,10 @@
         <td>
           {{ employee.title }}
           {% if employee.age %} ({{ employee.age }}) {% endif %}
+          <a href="{{ url_for('employee_page', employee_key=employee_key) }}">
+              {{ employee.title }}
+              {% if employee.age %} ({{ employee.age }}) {% endif %}
+          </a>
         </td>
       </tr>
       {% endfor %}
