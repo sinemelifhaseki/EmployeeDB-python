@@ -6,7 +6,13 @@ app = Flask(__name__)
 
 @app.route("/")
 def home_page():
-    return "Welcome to our project - itucsdb1916 - group 16"
+    today = datetime.today()
+    day_name = today.strftime("%A")
+    return render_template("home.html", day=day_name)
+
+@app.route("/addemployee")
+def movies_page():
+    return render_template("addemployee.html")
 
 
 if __name__ == "__main__":
