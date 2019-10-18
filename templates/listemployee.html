@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+    <h1>WELCOME TO EMPLOYEEDB</h1>
+    <p>List of current employees:</p>
+    
+    {% if employees %}
+    <table class="table is-striped is-fullwidth">
+      {% for employee_key, employee in employees %}
+      <tr>
+        <td>
+          {{ employee.title }}
+          {% if employee.age %} ({{ employee.age }}) {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% endif %}
+
+
+{% endblock %}
