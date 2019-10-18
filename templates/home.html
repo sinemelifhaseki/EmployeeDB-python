@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8"/>
-    <title>My movies - Home</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css"/>
-  </head>
-  <body>
-    <h1>ITUCSDB1916 - EmployeeDB</h1>
-    <p>Welcome to our project on a nice {{ day }}!</p>
-  </body>
-</html>
+{% extends "layout.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+    <h1>WELCOME TO EMPLOYEEDB</h1>
+    <p>Have a nice {{ day }}!</p>
+
+
+{% endblock %}

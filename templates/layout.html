@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>ITUCSDB1916 EmployeeDB - {% block title %}{% endblock %}</title>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css"/>
+  </head>
+  <body>
+    <header>
+        <nav class="navbar" aria-label="main navigation">
+            <div class="navbar-brand">
+                <span class="navbar-item">
+                <a class="button is-link" href="{{ url_for('home_page') }}">Home</a>
+                </span>
+                <span class="navbar-item">
+                <a class="button is-link" href="{{ url_for('add_page') }}">Add Employee</a>
+                </span>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="section">
+            <div class="content">
+    {% block content %}{% endblock %}
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+            <div class="content">
+      <small>&copy; 2019, Sinem Elif Haseki & Hakan Sarac</small>
+      </div>
+    </footer>
+  </body>
+</html>
