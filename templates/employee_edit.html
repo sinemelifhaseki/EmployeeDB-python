@@ -11,6 +11,12 @@
         </div>
       </div>
 
+      {% if 'title' in values.errors %}
+        <p class="help has-background-warning">
+            {{ values.errors['title'] }}
+        </p>
+        {% endif %}
+
       <div class="field">
         <label for="age" class="label">Age</label>
         <div class="control">
@@ -18,6 +24,12 @@
                  min="{{ min_age }}" max="{{ max_age }}"/>
         </div>
       </div>
+
+      {% if 'age' in values.errors %}
+        <p class="help has-background-warning">
+            {{ values.errors['age'] }}
+        </p>
+        {% endif %}
 
       <div class="field is-grouped">
         <div class="control">

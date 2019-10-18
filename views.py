@@ -28,13 +28,43 @@ def employee_page(employee_key):
 
 def employee_add_page():
     if request.method == "GET":
+        values = {"title": "", "age": ""}
         return render_template(
-            "employee_edit.html", min_age=18, max_age=62
+            "employee_edit.html", min_age=18, max_age=62,values=values,
         )
     else:
-        form_title = request.form["title"]
-        form_age = request.form["age"]
-        employee = Employee(form_title, age=int(form_age) if form_age else None)
+        valid = validate_employee_form(request.form)
+        if not valid:
+            return render_template(
+            "employee_edit.html", min_age=18, max_age=62,values=request.form,
+        )
+        title = request.form.data["title"]
+        age = request.form.data["age"]
+        employee = Employee(form_title, age=age)
         db = current_app.config["db"]
         employee_key = db.add_employee(employee)
         return redirect(url_for("employee_page", employee_key=employee_key))
+
+def validate_employee_form(form):
+    form.data = {}
+    form.errors = {}
+
+    form_title = form.get("title", "").strip()
+    if len(form_title) == 0:
+        form.errors["title"] = "Title cannot be blank!"
+    else:
+        form.data["title"] = form_title
+
+    form_age = form.get("age")
+    if not form_age:
+        form.data["age"] = None
+    elif not form_age.isdigit():
+        form.errors["age"] = "Age must consist of digits only."
+    else:
+        age = int(form_age)
+        if (age < 18) or (age > 62):
+            form.errors["age"] = "Age not in valid range."
+        else:
+            form.data["age"] = age
+
+    return len(form.errors) == 0
