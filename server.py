@@ -4,7 +4,6 @@ import views
 from database import Database
 from employee import Employee
 
-app = Flask(__name__)
 
 def create_app():
     app = Flask(__name__)
@@ -21,8 +20,8 @@ def create_app():
 
     return app
 
+app=create_app()
 
 
 if __name__ == "__main__":
-    app=create_app()
     app.run()
