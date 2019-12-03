@@ -31,7 +31,7 @@ class Database:
         for employee_key, employee in self.employees.items():
             employee_ = Employee(employee.title, age=employee.age)
             employees.append((employee_key, employee_))
-        return 
+        return employees
 ####JOBTITLES
     def add_jobtitle(self, jobtitle):
         self._last_jobtitle_key += 1
@@ -54,7 +54,7 @@ class Database:
         for jobtitle_key, jobtitle in self.jobtitles.items():
             jobtitle_ = Jobtitle(jobtitle.title)
             jobtitles.append((jobtitle_key, jobtitle_))
-        return 
+        return jobtitles
 ########LEVELS
     def add_level(self, level):
         self._last_level_key += 1
@@ -77,6 +77,6 @@ class Database:
         for level_key, level in self.levels.items():
             level_ = Level(level.title)
             levels.append((level_key, level_))
-        return 
+        return levels
 ######SERVICE
 
