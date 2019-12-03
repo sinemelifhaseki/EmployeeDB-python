@@ -7,8 +7,10 @@ class Database:
     def __init__(self):
         self.employees = {}
         self.jobtitles = {}
+        self.levels = {}
         self._last_employee_key = 0
         self._last_jobtitle_key = 0
+        self._last_level_key = 0
 ###EMPLOYEES
     def add_employee(self, employee):
         self._last_employee_key += 1
