@@ -3,6 +3,9 @@ from flask import Flask, render_template
 import views
 from database import Database
 from employee import Employee
+from jobtitle import Jobtitle
+from level import Level
+from service import Service
 
 app = Flask(__name__)
 
@@ -15,6 +18,14 @@ def create_app():
     app.add_url_rule("/employees/<int:employee_key>", view_func=views.employee_page)
     app.add_url_rule("/new-employee", view_func=views.employee_add_page, methods=["GET", "POST"])
 
+    app.add_url_rule("/jobtitles", view_func=views.list_jobtitles, methods=["GET", "POST"])
+    app.add_url_rule("/jobtitles/<int:jobtitle_key>", view_func=views.jobtitle_page)
+    app.add_url_rule("/new-jobtitle", view_func=views.jobtitle_add_page, methods=["GET", "POST"])
+
+    app.add_url_rule("/levels", view_func=views.list_levels, methods=["GET", "POST"])
+    app.add_url_rule("/levels/<int:level_key>", view_func=views.level_page)
+    app.add_url_rule("/new-level", view_func=views.level_add_page, methods=["GET", "POST"])
+
     db = Database()
     app.config["db"] = db
 
@@ -25,4 +36,4 @@ def create_app():
 
 if __name__ == "__main__":
     app=create_app()
-    app.run()
+    app.run(debug=True)

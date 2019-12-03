@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+    <h1>WELCOME TO EmployeeDB</h1>
+    <p>List of current levels:</p>
+    
+    {% if levels %}
+    <form action="" method="post" name="level_list">
+    <table class="table is-striped is-fullwidth">
+      {% for level_key, level in levels %}
+      <tr>
+        <td>
+            <label class="checkbox">
+                <input type="checkbox" name="level_keys" value="{{ level_key }}"/>
+              </label>
+          {{ level.title }}
+          <a href="{{ url_for('level_page', level_key=level_key) }}">
+              {{ level.title }}
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+    
+    <div class="field is-grouped">
+        <div class="control">
+          <button class="button is-danger is-small">Delete</button>
+        </div>
+      </div>
+    </form>
+    {% endif %}
+{% endblock %}
