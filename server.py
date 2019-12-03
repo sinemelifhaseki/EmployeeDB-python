@@ -7,7 +7,6 @@ from jobtitle import Jobtitle
 from level import Level
 from service import Service
 
-app = Flask(__name__)
 
 def create_app():
     app = Flask(__name__)
@@ -32,8 +31,8 @@ def create_app():
 
     return app
 
+app=create_app()
 
 
 if __name__ == "__main__":
-    app=create_app()
-    app.run(debug=True)
+    app.run()
