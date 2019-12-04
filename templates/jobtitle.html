@@ -8,6 +8,22 @@
         <th>Title:</th>
         <td>{{ jobtitle.title }}</td>
       </tr>
+      <tr>
+        <th>Executive:</th>
+        <td>{{ jobtitle.is_executive }}</td>
+      </tr>
+      <tr>
+        <th>Department:</th>
+        <td>{{ jobtitle.department }}</td>
+      </tr>
+      <tr>
+        <th>Active:</th>
+        <td>{{ jobtitle.is_active }}</td>
+      </tr>
+      <tr>
+        <th>Can be hired?:</th>
+        <td>{{ jobtitle.to_be_hired }}</td>
+      </tr>
     </table>
     
 {% endblock %}
