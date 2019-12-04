@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block title %}Service{% endblock %}
+{% block content %}
+    <h1 class="title">Service</h1>
+
+    <table class="table">
+      <tr>
+        <th>Service Town:</th>
+        <td>{{ service.town }}</td>
+      </tr>
+      <tr>
+        <th>Capacity:</th>
+        <td>{{ service.capacity }}</td>
+      </tr>
+      <tr>
+        <th>Current Passengers:</th>
+        <td>{{ service.current_passengers }}</td>
+      </tr>
+      <tr>
+        <th>Licence Plate:</th>
+        <td>{{ service.licence_plate }}</td>
+      </tr>
+      <tr>
+        <th>Departure Hour:</th>
+        <td>{{ service.departure_hour }}</td>
+      </tr>
+    </table>
+    
+{% endblock %}

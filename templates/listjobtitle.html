@@ -16,6 +16,10 @@
           {{ jobtitle.title }}
           <a href="{{ url_for('jobtitle_page', jobtitle_key=jobtitle_key) }}">
               {{ jobtitle.title }}
+              {{ jobtitle.is_executive }}
+              {{ jobtitle.department }}
+              {{ jobtitle.is_active }}
+              {{ jobtitle.to_be_hired }}
           </a>
         </td>
       </tr>

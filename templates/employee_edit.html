@@ -5,15 +5,15 @@
 
     <form action="" method="post" name="employee_edit">
       <div class="field">
-        <label for="title" class="label">Title</label>
+        <label for="name" class="label">Name</label>
         <div class="control">
-          <input type="text" name="title" class="input" required="required"/>
+          <input type="text" name="name" class="input" required="required"/>
         </div>
       </div>
 
-      {% if 'title' in values.errors %}
+      {% if 'name' in values.errors %}
         <p class="help has-background-warning">
-            {{ values.errors['title'] }}
+            {{ values.errors['name'] }}
         </p>
         {% endif %}
 
