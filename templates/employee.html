@@ -5,8 +5,8 @@
 
     <table class="table">
       <tr>
-        <th>Title:</th>
-        <td>{{ employee.title }}</td>
+        <th>Name:</th>
+        <td>{{ employee.name }}</td>
       </tr>
       {% if employee.age %}
       <tr>
@@ -14,6 +14,18 @@
         <td>{{ employee.age }}</td>
       </tr>
       {% endif %}
+      <tr>
+        <th>Gender:</th>
+        <td>{{ employee.gender }}</td>
+      </tr>
+      <tr>
+        <th>Height:</th>
+        <td>{{ employee.height }}</td>
+      </tr>
+      <tr>
+        <th>Weight:</th>
+        <td>{{ employee.weight }}</td>
+      </tr>
     </table>
     
 {% endblock %}
