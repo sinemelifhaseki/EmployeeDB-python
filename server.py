@@ -25,7 +25,7 @@ def create_app():
     app.add_url_rule("/levels/<int:level_key>", view_func=views.level_page)
     app.add_url_rule("/new-level", view_func=views.level_add_page, methods=["GET", "POST"])
 
-    db = Database()
+    db = Database("""user='postgres' password='docker' host='localhost' port=5432 dbname='postgres'""")
     app.config["db"] = db
 
 

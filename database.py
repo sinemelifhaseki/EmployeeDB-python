@@ -1,4 +1,4 @@
-from psycopg2 as dbapi2
+import psycopg2 as dbapi2
 from employee import Employee
 from jobtitle import Jobtitle
 from level import Level
@@ -31,7 +31,7 @@ class Database:
             query = "SELECT NAME, AGE, GENDER, HEIGHT, WEIGHT FROM PERSON WHERE (ID = %s)"
             cursor.execute(query, (employee_key,))
             name, age, gender, height, weight = cursor.fetchone()
-        employee_ = Employee(name, age=age, gender, height, weight)
+        employee_ = Employee(name, age, gender, height, weight)
         return employee_
 
     def get_employees(self):
