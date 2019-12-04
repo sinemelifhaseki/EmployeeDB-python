@@ -57,11 +57,11 @@ def validate_employee_form(form):
     form.data = {}
     form.errors = {}
 
-    form_title = form.get("title", "").strip()
+    form_title = form.get("name", "").strip()
     if len(form_title) == 0:
-        form.errors["title"] = "Title cannot be blank!"
+        form.errors["name"] = "Name cannot be blank!"
     else:
-        form.data["title"] = form_title
+        form.data["name"] = form_title
 
     form_age = form.get("age")
     if not form_age:
