@@ -43,9 +43,12 @@ def employee_add_page(): #add employee page
             return render_template(
             "employee_edit.html", min_age=18, max_age=62,values=request.form,
         )
-        title = request.form.data["title"]
+        name = request.form.data["name"]
         age = request.form.data["age"]
-        employee = Employee(title, age=age)
+        gender = request.form.data["gender"]
+        height = request.form.data["height"]
+        weight = request.form.data["weight"]
+        employee = Employee(title, age, gender, height, weight)
         db = current_app.config["db"]
         employee_key = db.add_employee(employee)
         return redirect(url_for("employee_page", employee_key=employee_key))
@@ -107,7 +110,11 @@ def jobtitle_add_page(): #add jobtitle page
             "jobtitle_edit.html",values=request.form,
         )
         title = request.form.data["title"]
-        jobtitle = Jobtitle(title)
+        is_executive = request.form.data["is_executive"]
+        department = request.form.data["department"]
+        is_active = request.form.data["is_active"]
+        to_be_hired = request.form.data["to_be_hired"]
+        jobtitle = Jobtitle(title, is_executive, department, is_active, to_be_hired)
         db = current_app.config["db"]
         jobtitle_key = db.add_jobtitle(jobtitle)
         return redirect(url_for("jobtitle_page", jobtitle_key=jobtitle_key))
@@ -158,7 +165,11 @@ def level_add_page(): #add level page
             "level_edit.html",values=request.form,
         )
         title = request.form.data["title"]
-        level = Level(title)
+        experience = request.form.data["experience"]
+        bonus_salary = request.form.data["bonus_salary"]
+        is_director = request.form.data["is_director"]
+        is_manager = request.form.data["is_manager"]
+        level = Level(title, experience, bonus_salary, is_director, is_manager)
         db = current_app.config["db"]
         level_key = db.add_level(level)
         return redirect(url_for("level_page", level_key=level_key))
@@ -176,3 +187,58 @@ def validate_level_form(form):
     return len(form.errors) == 0
 
 ########service########
+def list_services(): #show the services
+    db = current_app.config["db"]
+    if request.method == "GET":
+        services = db.get_services()
+        return render_template("listservice.html", services=sorted(services))
+    else:
+        form_service_keys = request.form.getlist("service_keys")
+        for form_service_key in form_service_keys:
+            db.delete_service(int(form_service_key))
+        return redirect(url_for("list_services"))
+
+def service_page(service_key): #show the key service page
+    db = current_app.config["db"]
+    service = db.get_service(service_key)
+    if service is None:
+        abort(404)
+    return render_template("service.html", service=service)
+
+
+def service_add_page(): #add service page
+    if request.method == "GET":
+        values = {"town": ""}
+        return render_template(
+            "level_edit.html", values=values,
+        )
+    else:
+        valid = validate_service_form(request.form)
+        if not valid:
+            return render_template(
+            "service_edit.html",values=request.form,
+        )
+        town = request.form.data["town"]
+        capacity = request.form.data["capacity"]
+        current_passengers = request.form.data["current_passengers"]
+        licence_plate = request.form.data["licence_plate"]
+        departure_hour = request.form.data["departure_hour"]
+        service = Service(town,capacity,current_passengers,licence_plate,departure_hour)
+        db = current_app.config["db"]
+        service_key = db.add_service(service)
+        return redirect(url_for("service_page", service_key=service_key))
+
+def validate_service_form(form):
+    form.data = {}
+    form.errors = {}
+
+    form_title = form.get("town", "").strip()
+    if len(form_title) == 0:
+        form.errors["town"] = "Town cannot be blank!"
+    else:
+        form.data["town"] = form_title
+
+    return len(form.errors) == 0
+
+####
+
