@@ -210,7 +210,7 @@ def service_add_page(): #add service page
     if request.method == "GET":
         values = {"town": ""}
         return render_template(
-            "level_edit.html", values=values,
+            "service_edit.html", values=values,
         )
     else:
         valid = validate_service_form(request.form)
