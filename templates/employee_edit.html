@@ -15,7 +15,7 @@
         <p class="help has-background-warning">
             {{ values.errors['name'] }}
         </p>
-        {% endif %}
+      {% endif %}
 
       <div class="field">
         <label for="age" class="label">Age</label>
@@ -29,8 +29,47 @@
         <p class="help has-background-warning">
             {{ values.errors['age'] }}
         </p>
-        {% endif %}
+      {% endif %}
 
+      <div class="field">
+        <label for="gender" class="label">Gender</label>
+        <div class="control">
+          <input type="text" name="gender" class="input" required="required"/>
+        </div>
+      </div>
+
+      {% if 'gender' in values.errors %}
+        <p class="help has-background-warning">
+            {{ values.errors['gender'] }}
+        </p>
+      {% endif %}
+      
+      <div class="field">
+        <label for="height" class="label">Height</label>
+        <div class="control">
+          <input type="number" name="height" class="input" required="required"/>
+        </div>
+      </div>
+
+      {% if 'height' in values.errors %}
+        <p class="help has-background-warning">
+            {{ values.errors['height'] }}
+        </p>
+      {% endif %}
+      
+      <div class="field">
+        <label for="weight" class="label">Weight</label>
+        <div class="control">
+          <input type="number" name="weight" class="input" required="required"/>
+        </div>
+      </div>
+
+      {% if 'weight' in values.errors %}
+        <p class="help has-background-warning">
+            {{ values.errors['weight'] }}
+        </p>
+      {% endif %}
+      
       <div class="field is-grouped">
         <div class="control">
           <button class="button is-primary is-small">Save</button>
