@@ -13,13 +13,8 @@
             <label class="checkbox">
                 <input type="checkbox" name="level_keys" value="{{ service_key }}"/>
               </label>
-          {{ service.town }}
           <a href="{{ url_for('service_page', service_key=service_key) }}">
               {{ service.town }}
-              {{ service.capacity }}
-              {{ service.current_passengers }}
-              {{ service.licence_plate }}
-              {{ service.departure_hour }}
           </a>
         </td>
       </tr>

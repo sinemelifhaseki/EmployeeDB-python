@@ -13,13 +13,8 @@
             <label class="checkbox">
                 <input type="checkbox" name="level_keys" value="{{ level_key }}"/>
               </label>
-          {{ level.title }}
           <a href="{{ url_for('level_page', level_key=level_key) }}">
               {{ level.title }}
-              {{ level.experience }}
-              {{ level.bonus_salary }}
-              {{ level.is_director }}
-              {{ level.is_manager }}
           </a>
         </td>
       </tr>
