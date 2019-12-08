@@ -49,7 +49,7 @@ class Database:
     def add_jobtitle(self, jobtitle):
         with dbapi2.connect(self.dbfile) as connection:
             cursor = connection.cursor()
-            query = "INSERT INTO JOBTITLES JOBNAME, IS_EXECUTIVE, DEPARTMENT, IS_ACTIVE, TO_BE_HIRED VALUES (%s, %s, %s,%s,%s)"
+            query = "INSERT INTO JOBTITLES (JOBNAME, IS_EXECUTIVE, DEPARTMENT, IS_ACTIVE, TO_BE_HIRED) VALUES (%s, %s, %s,%s,%s)"
             cursor.execute(query, (jobtitle.title, jobtitle.is_executive,jobtitle.department, jobtitle.is_active, jobtitle.to_be_hired))
             connection.commit()
             jobtitle_key = cursor.lastrowid
@@ -84,7 +84,7 @@ class Database:
     def add_level(self, level):
         with dbapi2.connect(self.dbfile) as connection:
             cursor = connection.cursor()
-            query = "INSERT INTO LEVEL LEVELNAME, EXPERIENCE_YEAR_NEEDED, BONUS_SALARY, IS_DIRECTOR, IS_MANAGER VALUES (%s, %s, %s, %s, %s)"
+            query = "INSERT INTO LEVEL (LEVELNAME, EXPERIENCE_YEAR_NEEDED, BONUS_SALARY, IS_DIRECTOR, IS_MANAGER) VALUES (%s, %s, %s, %s, %s);"
             cursor.execute(query, (level.title, level.experience, level.bonus_salary, level.is_director, level.is_manager))
             connection.commit()
             level_key = cursor.lastrowid
@@ -103,7 +103,7 @@ class Database:
             query = "SELECT LEVELNAME, EXPERIENCE_YEAR_NEEDED, BONUS_SALARY, IS_DIRECTOR, IS_MANAGER FROM LEVEL WHERE (ID = %s)"
             cursor.execute(query, (level_key,))
             title, experience, bonus_salary, is_director, is_manager = cursor.fetchone()
-        level_ = Employee(title, experience, bonus_salary, is_director, is_manager)
+        level_ = Level(title, experience, bonus_salary, is_director, is_manager)
         return level_
     
     def get_levels(self):
@@ -113,7 +113,7 @@ class Database:
             query = "SELECT ID, LEVELNAME, EXPERIENCE_YEAR_NEEDED, BONUS_SALARY, IS_DIRECTOR, IS_MANAGER FROM LEVEL ORDER BY ID"
             cursor.execute(query)
             for level_key, title, experience, bonus_salary, is_director, is_manager in cursor:
-                levels.append((level_key, Employee(title, experience, bonus_salary, is_director, is_manager)))
+                levels.append((level_key, Level(title, experience, bonus_salary, is_director, is_manager)))
         return levels
 ######SERVICE
     def add_service(self, service):
