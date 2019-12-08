@@ -3,6 +3,8 @@ from employee import Employee
 from jobtitle import Jobtitle
 from level import Level
 from service import Service
+from workchart import Workchart
+from transportation import Transportation
 
 class Database:
     def __init__(self, dbfile):
@@ -83,7 +85,7 @@ class Database:
         with dbapi2.connect(self.dbfile) as connection:
             cursor = connection.cursor()
             query = "INSERT INTO LEVEL (LEVELNAME, EXPERIENCE_YEAR_NEEDED, BONUS_SALARY, IS_DIRECTOR, IS_MANAGER) VALUES (%s, %s, %s, %s, %s)"
-            cursor.execute(query, (level.title, level.experience, level.bonus_salary, level.is_director, employee.is_manager))
+            cursor.execute(query, (level.title, level.experience, level.bonus_salary, level.is_director, level.is_manager))
             connection.commit()
             level_key = cursor.lastrowid
         return level_key
@@ -145,7 +147,7 @@ class Database:
             cursor = connection.cursor()
             query = "SELECT (TOWN, CAPACITY, CURRENT_PASSENGERS, LICENCE_PLATE, DEPARTURE_HOUR) FROM SERVICE ORDER BY ID"
             cursor.execute(query)
-            for town,capacity,current_passengers,licence_plate,departure_hour in cursor:
+            for service_key,town,capacity,current_passengers,licence_plate,departure_hour in cursor:
                 services.append((service_key, Service(town,capacity,current_passengers,licence_plate,departure_hour)))
         return services
 
@@ -192,7 +194,7 @@ class Database:
             cursor.execute(query, (transportation.personid, transportation.serviceid, transportation.uses_in_morning, transportation.uses_in_evening, transportation.seat_nr, transportation.service_fee, transportation.stop_name))
             connection.commit()
             transportation_key = transportation.personid
-        return workchart_key
+        return transportation_key
 
     def delete_transportation(self, transportation_key):
         with dbapi2.connect(self.dbfile) as connection:
@@ -205,10 +207,10 @@ class Database:
         with dbapi2.connect(self.dbfile) as connection:
             cursor = connection.cursor()
             query = "SELECT PERSONID, SERVICEID, USES_IN_MORNING, USES_IN_EVENING, SEAT_NUMBER, SERVICE_FEE, STOP_NAME FROM TRANSPORTATION WHERE (PERSONID = %s)"
-            cursor.execute(query, (workchart_key,))
-            personid, jobid, levelid, salary, foodbudget, total_yr_worked, yr_in_comp, qualify = cursor.fetchone()
-        workchart_ = Workchart(personid, jobid, levelid, salary, foodbudget, total_yr_worked, yr_in_comp, qualify)
-        return workchart_
+            cursor.execute(query, (transportation_key,))
+            personid,serviceid, uses_in_morning, uses_in_evening, seat_nr, service_fee, stop_name = cursor.fetchone()
+        transportation_ = Transportation(personid,serviceid, uses_in_morning, uses_in_evening, seat_nr, service_fee, stop_name)
+        return transportation_
 
     def get_transportations(self):
         transportations = []
@@ -216,6 +218,6 @@ class Database:
             cursor = connection.cursor()
             query = "SELECT PERSONID, SERVICEID, USES_IN_MORNING, USES_IN_EVENING, SEAT_NUMBER, SERVICE_FEE, STOP_NAME FROM TRANSPORTATION ORDER BY SERVICEID"
             cursor.execute(query)
-            for personid, jobid, levelid, salary, foodbudget, total_yr_worked, yr_in_comp, qualify in cursor:
+            for personid,serviceid, uses_in_morning, uses_in_evening, seat_nr, service_fee, stop_name in cursor:
                 transportations.append((personid, Transportation(personid,serviceid, uses_in_morning, uses_in_evening, seat_nr, service_fee, stop_name)))
         return transportations
