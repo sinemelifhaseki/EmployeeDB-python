@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+{% block title %}Edit service{% endblock %}
+{% block content %}
+    <h1 class="title">Edit service</h1>
+
+    <form action="" method="post" name="edit_service">
+        <div class="field">
+            <label for="town" class="label">Town</label>
+            <div class="control">
+                <input type="text" name="town" class="input" required="required"/>
+            </div>
+        </div>
+
+        {% if 'town' in values.errors %}
+            <p class="help has-background-warning">
+             {{ values.errors['town'] }}
+            </p>
+        {% endif %}
+
+        <div class="field">
+            <label for="capacity" class="label">Capacity</label>
+            <div class="control">
+              <input type="number" name="capacity" class="input" required="required"/>
+            </div>
+        </div>
+  
+        
+
+        <div class="field">
+            <label for="current_passengers" class="label">Current Passengers</label>
+            <div class="control">
+                <input type="number" name="current_passengers" class="input" required="required"/>
+            </div>
+        </div>
+     
+         
+
+        <div class="field">
+            <label for="licence_plate" class="label">Licence Plate</label>
+            <div class="control">
+                <input type="text" name="licence_plate" class="input" required="required"/>
+            </div>
+        </div>
+
+        
+
+        
+        <div class="field">
+            <label for="departure_hour" class="label">Departure Hour</label>
+            <div class="control">
+                <input type="text" name="departure_hour" class="input" required="required"/>
+            </div>
+        </div>
+
+        
+
+
+        <div class="field is-grouped">
+            <div class="control">
+            <button class="button is-primary is-small">Save</button>
+            </div>
+        </div>
+    </form>
+{% endblock %}
