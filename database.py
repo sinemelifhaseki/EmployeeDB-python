@@ -155,7 +155,7 @@ class Database:
     def add_workchart(self, workchart):
         with dbapi2.connect(self.dbfile) as connection:
             cursor = connection.cursor()
-            query = "INSERT INTO WORKCHART PERSONID, JOBID, LEVELID, SALARY, FOOD_BUDGET, TOTAL_YEARS_WORKED, YEARS_IN_COMPANY, QUALIFIES_FOR_PENSION VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+            query = "INSERT INTO WORKCHART (PERSONID, JOBID, LEVELID, SALARY, FOOD_BUDGET, TOTAL_YEARS_WORKED, YEARS_IN_COMPANY, QUALIFIES_FOR_PENSION) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
             cursor.execute(query, (workchart.personid, workchart.jobid, workchart.levelid, workchart.salary, workchart.foodbudget, workchart.total_yr_worked, workchart.yr_in_comp, workchart.qualify))
             connection.commit()
             workchart_key = workchart.personid
@@ -190,7 +190,7 @@ class Database:
     def add_transportation(self, transportation):
         with dbapi2.connect(self.dbfile) as connection:
             cursor = connection.cursor()
-            query = "INSERT INTO TRANSPORTATION PERSONID, SERVICEID, USES_IN_MORNING, USES_IN_EVENING, SEAT_NUMBER, SERVICE_FEE, STOP_NAME VALUES (%s, %s, %s, %s, %s, %s, %s)"
+            query = "INSERT INTO TRANSPORTATION (PERSONID, SERVICEID, USES_IN_MORNING, USES_IN_EVENING, SEAT_NUMBER, SERVICE_FEE, STOP_NAME) VALUES (%s, %s, %s, %s, %s, %s, %s)"
             cursor.execute(query, (transportation.personid, transportation.serviceid, transportation.uses_in_morning, transportation.uses_in_evening, transportation.seat_nr, transportation.service_fee, transportation.stop_name))
             connection.commit()
             transportation_key = transportation.personid
