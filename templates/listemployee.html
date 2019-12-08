@@ -13,14 +13,10 @@
             <label class="checkbox">
                 <input type="checkbox" name="employee_keys" value="{{ employee_key }}"/>
               </label>
-          {{ employee.name }}
-          {% if employee.age %} ({{ employee.age }}) {% endif %}
+
           <a href="{{ url_for('employee_page', employee_key=employee_key) }}">
               {{ employee.name }}
               {% if employee.age %} ({{ employee.age }}) {% endif %}
-              {{ employee.gender }}
-              {{ employee.height }}
-              {{ employee.weight }}
           </a>
         </td>
       </tr>

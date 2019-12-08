@@ -33,7 +33,7 @@ def employee_page(employee_key): #show the key employee page
 
 def employee_add_page(): #add employee page
     if request.method == "GET":
-        values = {"title": "", "age": ""}
+        values = {"name": "", "age": "", "gender":"","height":"","weight":""}
         return render_template(
             "employee_edit.html", min_age=18, max_age=62,values=values,
         )
@@ -45,10 +45,10 @@ def employee_add_page(): #add employee page
         )
         name = request.form.data["name"]
         age = request.form.data["age"]
-        gender = request.form.data["gender"]
-        height = request.form.data["height"]
-        weight = request.form.data["weight"]
-        employee = Employee(title, age, gender, height, weight)
+        gender = request.form.get("gender")
+        height = request.form.get("height")
+        weight = request.form.get("weight")
+        employee = Employee(name, age, gender, height, weight)
         db = current_app.config["db"]
         employee_key = db.add_employee(employee)
         return redirect(url_for("employee_page", employee_key=employee_key))
@@ -99,7 +99,7 @@ def jobtitle_page(jobtitle_key): #show the key jobtitle page
 
 def jobtitle_add_page(): #add jobtitle page
     if request.method == "GET":
-        values = {"title": ""}
+        values = {"title": "", "is_executive": "","department": "","is_active": "","to_be_hired": ""}
         return render_template(
             "jobtitle_edit.html", values=values,
         )
@@ -110,10 +110,10 @@ def jobtitle_add_page(): #add jobtitle page
             "jobtitle_edit.html",values=request.form,
         )
         title = request.form.data["title"]
-        is_executive = request.form.data["is_executive"]
-        department = request.form.data["department"]
-        is_active = request.form.data["is_active"]
-        to_be_hired = request.form.data["to_be_hired"]
+        is_executive = request.form.get("is_executive")
+        department = request.form.get("department")
+        is_active = request.form.get("is_active")
+        to_be_hired = request.form.get("to_be_hired")
         jobtitle = Jobtitle(title, is_executive, department, is_active, to_be_hired)
         db = current_app.config["db"]
         jobtitle_key = db.add_jobtitle(jobtitle)
@@ -154,7 +154,7 @@ def level_page(level_key): #show the key level page
 
 def level_add_page(): #add level page
     if request.method == "GET":
-        values = {"title": ""}
+        values = {"title": "","experience": "","bonus_salary": "","is_director": "","is_manager": ""}
         return render_template(
             "level_edit.html", values=values,
         )
@@ -165,10 +165,10 @@ def level_add_page(): #add level page
             "level_edit.html",values=request.form,
         )
         title = request.form.data["title"]
-        experience = request.form.data["experience"]
-        bonus_salary = request.form.data["bonus_salary"]
-        is_director = request.form.data["is_director"]
-        is_manager = request.form.data["is_manager"]
+        experience = request.form.get("experience")
+        bonus_salary = request.form.get("bonus_salary")
+        is_director = request.form.get("is_director")
+        is_manager = request.form.get("is_manager")
         level = Level(title, experience, bonus_salary, is_director, is_manager)
         db = current_app.config["db"]
         level_key = db.add_level(level)
@@ -208,7 +208,7 @@ def service_page(service_key): #show the key service page
 
 def service_add_page(): #add service page
     if request.method == "GET":
-        values = {"town": ""}
+        values = {"town": "","capacity": "","current_passengers": "","licence_plate": "","departure_hour": ""}
         return render_template(
             "service_edit.html", values=values,
         )
@@ -219,10 +219,10 @@ def service_add_page(): #add service page
             "service_edit.html",values=request.form,
         )
         town = request.form.data["town"]
-        capacity = request.form.data["capacity"]
-        current_passengers = request.form.data["current_passengers"]
-        licence_plate = request.form.data["licence_plate"]
-        departure_hour = request.form.data["departure_hour"]
+        capacity = request.form.get("capacity")
+        current_passengers = request.form.get("current_passengers")
+        licence_plate = request.form.get("licence_plate")
+        departure_hour = request.form.get("departure_hour")
         service = Service(town,capacity,current_passengers,licence_plate,departure_hour)
         db = current_app.config["db"]
         service_key = db.add_service(service)
