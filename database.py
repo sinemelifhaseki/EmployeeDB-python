@@ -49,7 +49,7 @@ class Database:
     def add_jobtitle(self, jobtitle):
         with dbapi2.connect(self.dbfile) as connection:
             cursor = connection.cursor()
-            query = "INSERT INTO JOBTITLES (JOBNAME, IS_EXECUTIVE, DEPARTMENT, IS_ACTIVE, TO_BE_HIRED) VALUES (%s, %s, %s,%s,%s)"
+            query = "INSERT INTO JOBTITLES JOBNAME, IS_EXECUTIVE, DEPARTMENT, IS_ACTIVE, TO_BE_HIRED VALUES (%s, %s, %s,%s,%s)"
             cursor.execute(query, (jobtitle.title, jobtitle.is_executive,jobtitle.department, jobtitle.is_active, jobtitle.to_be_hired))
             connection.commit()
             jobtitle_key = cursor.lastrowid
@@ -65,7 +65,7 @@ class Database:
     def get_jobtitle(self, jobtitle_key):
         with dbapi2.connect(self.dbfile) as connection:
             cursor = connection.cursor()
-            query = "SELECT (JOBNAME, IS_EXECUTIVE, DEPARTMENT, IS_ACTIVE, TO_BE_HIRED) FROM JOBTITLES WHERE (ID = %s)"
+            query = "SELECT JOBNAME, IS_EXECUTIVE, DEPARTMENT, IS_ACTIVE, TO_BE_HIRED FROM JOBTITLES WHERE (ID = %s)"
             cursor.execute(query, (jobtitle_key,))
             title,is_executive,department,is_active,to_be_hired = cursor.fetchone()
         jobtitle_ = Jobtitle(title,is_executive,department,is_active,to_be_hired)
@@ -75,7 +75,7 @@ class Database:
         jobtitles = []
         with dbapi2.connect(self.dbfile) as connection:
             cursor = connection.cursor()
-            query = "SELECT (ID, JOBNAME, IS_EXECUTIVE, DEPARTMENT, IS_ACTIVE, TO_BE_HIRED) FROM JOBTITLES ORDER BY ID"
+            query = "SELECT ID, JOBNAME, IS_EXECUTIVE, DEPARTMENT, IS_ACTIVE, TO_BE_HIRED FROM JOBTITLES ORDER BY ID"
             cursor.execute(query)
             for jobtitle_key, title, is_executive, department, is_active, to_be_hired in cursor:
                 jobtitles.append((jobtitle_key, Jobtitle(title,is_executive,department,is_active,to_be_hired)))
@@ -84,7 +84,7 @@ class Database:
     def add_level(self, level):
         with dbapi2.connect(self.dbfile) as connection:
             cursor = connection.cursor()
-            query = "INSERT INTO LEVEL (LEVELNAME, EXPERIENCE_YEAR_NEEDED, BONUS_SALARY, IS_DIRECTOR, IS_MANAGER) VALUES (%s, %s, %s, %s, %s)"
+            query = "INSERT INTO LEVEL LEVELNAME, EXPERIENCE_YEAR_NEEDED, BONUS_SALARY, IS_DIRECTOR, IS_MANAGER VALUES (%s, %s, %s, %s, %s)"
             cursor.execute(query, (level.title, level.experience, level.bonus_salary, level.is_director, level.is_manager))
             connection.commit()
             level_key = cursor.lastrowid
@@ -119,7 +119,7 @@ class Database:
     def add_service(self, service):
         with dbapi2.connect(self.dbfile) as connection:
             cursor = connection.cursor()
-            query = "INSERT INTO SERVICE (TOWN, CAPACITY, CURRENT_PASSENGERS, LICENCE_PLATE, DEPARTURE_HOUR) VALUES (%s, %s, %s,%s,%s)"
+            query = "INSERT INTO SERVICE TOWN, CAPACITY, CURRENT_PASSENGERS, LICENCE_PLATE, DEPARTURE_HOUR VALUES (%s, %s, %s,%s,%s)"
             cursor.execute(query, (service.town, service.capacity, service.current_passengers, service.licence_plate,service.departure_hour))
             connection.commit()
             service_key = cursor.lastrowid
@@ -135,7 +135,7 @@ class Database:
     def get_service(self, service_key):
         with dbapi2.connect(self.dbfile) as connection:
             cursor = connection.cursor()
-            query = "SELECT (TOWN, CAPACITY, CURRENT_PASSENGERS, LICENCE_PLATE, DEPARTURE_HOUR) FROM SERVICE WHERE (ID = %s)"
+            query = "SELECT TOWN, CAPACITY, CURRENT_PASSENGERS, LICENCE_PLATE, DEPARTURE_HOUR FROM SERVICE WHERE (ID = %s)"
             cursor.execute(query, (service_key,))
             town,capacity,current_passengers,licence_plate,departure_hour = cursor.fetchone()
         service_ = Service(town,capacity,current_passengers,licence_plate,departure_hour)
@@ -145,7 +145,7 @@ class Database:
         services = []
         with dbapi2.connect(self.dbfile) as connection:
             cursor = connection.cursor()
-            query = "SELECT (TOWN, CAPACITY, CURRENT_PASSENGERS, LICENCE_PLATE, DEPARTURE_HOUR) FROM SERVICE ORDER BY ID"
+            query = "SELECT TOWN, CAPACITY, CURRENT_PASSENGERS, LICENCE_PLATE, DEPARTURE_HOUR FROM SERVICE ORDER BY ID"
             cursor.execute(query)
             for service_key,town,capacity,current_passengers,licence_plate,departure_hour in cursor:
                 services.append((service_key, Service(town,capacity,current_passengers,licence_plate,departure_hour)))
@@ -155,7 +155,7 @@ class Database:
     def add_workchart(self, workchart):
         with dbapi2.connect(self.dbfile) as connection:
             cursor = connection.cursor()
-            query = "INSERT INTO WORKCHART (PERSONID, JOBID, LEVELID, SALARY, FOOD_BUDGET, TOTAL_YEARS_WORKED, YEARS_IN_COMPANY, QUALIFIES_FOR_PENSION) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+            query = "INSERT INTO WORKCHART PERSONID, JOBID, LEVELID, SALARY, FOOD_BUDGET, TOTAL_YEARS_WORKED, YEARS_IN_COMPANY, QUALIFIES_FOR_PENSION VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
             cursor.execute(query, (workchart.personid, workchart.jobid, workchart.levelid, workchart.salary, workchart.foodbudget, workchart.total_yr_worked, workchart.yr_in_comp, workchart.qualify))
             connection.commit()
             workchart_key = workchart.personid
@@ -190,7 +190,7 @@ class Database:
     def add_transportation(self, transportation):
         with dbapi2.connect(self.dbfile) as connection:
             cursor = connection.cursor()
-            query = "INSERT INTO TRANSPORTATION (PERSONID, SERVICEID, USES_IN_MORNING, USES_IN_EVENING, SEAT_NUMBER, SERVICE_FEE, STOP_NAME) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+            query = "INSERT INTO TRANSPORTATION PERSONID, SERVICEID, USES_IN_MORNING, USES_IN_EVENING, SEAT_NUMBER, SERVICE_FEE, STOP_NAME VALUES (%s, %s, %s, %s, %s, %s, %s)"
             cursor.execute(query, (transportation.personid, transportation.serviceid, transportation.uses_in_morning, transportation.uses_in_evening, transportation.seat_nr, transportation.service_fee, transportation.stop_name))
             connection.commit()
             transportation_key = transportation.personid

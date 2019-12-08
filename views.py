@@ -171,7 +171,7 @@ def level_add_page(): #add level page
         is_manager = request.form.get("is_manager")
         level = Level(title, experience, bonus_salary, is_director, is_manager)
         db = current_app.config["db"]
-        level_key = db.add_level(level)
+        db.add_level(level)
         return redirect(url_for("list_levels"))
 
 def validate_level_form(form):
@@ -225,7 +225,7 @@ def service_add_page(): #add service page
         departure_hour = request.form.get("departure_hour")
         service = Service(town,capacity,current_passengers,licence_plate,departure_hour)
         db = current_app.config["db"]
-        service_key = db.add_service(service)
+        db.add_service(service)
         return redirect(url_for("list_services"))
 
 def validate_service_form(form):
@@ -240,5 +240,65 @@ def validate_service_form(form):
 
     return len(form.errors) == 0
 
-####
+#######workchart######
+def list_workchart(): #show the workchart
+    db = current_app.config["db"]
+    if request.method == "GET":
+        workchart = db.get_workchart()
+        return render_template("listworkchart.html", workchart = sorted(workchart))
+    else:
+        form_workchart_keys = request.form.getlist("workchart_keys")
+        for form_workchart_key in form_workchart_keys:
+            db.delete_workchart(int(form_workchart_key))
+        return redirect(url_for("list_workchart"))
+
+def workchart_page(workchart_key): #show the key workchart page
+    db = current_app.config["db"]
+    workchart = db.get_workchart(workchart_key)
+    if workchart is None:
+        abort(404)
+    return render_template("workchart.html", workchart=workchart)
+
+def workchart_add_page(): #add workchart page
+    if request.method == "GET":
+        db = current_app.config["db"]
+        values = {"personid": "","jobid": "","levelid": "","salary": "","foodbudget": "", "total_yr_worked":"", "yr_in_comp":"", "qualify":""}
+        peoplenames = []
+        people = db.get_employees()
+        for employee_key, name, age, gender, height, weight in people:
+                peoplenames.append((name))
+        jobnames = []
+        jobs = db.get_jobtitles()
+        for jobtitle_key, title, is_executive, department, is_active, to_be_hired in jobs:
+                jobnames.append((title))
+        levelnames = []
+        levels = db.get_levels()
+        for level_key, title, experience, bonus_salary, is_director, is_manager in levels:
+                levelnames.append((title))
+        return render_template(
+            "workchart_edit.html", values=values, peoplenames = peoplenames, jobnames = jobnames, levelnames = levelnames
+        )
+    else:
+        valid = validate_workchart_form(request.form)
+        if not valid:
+            return render_template(
+            "workchart_edit.html",values=request.form,
+        )
+        personid = request.form.data["personid"]
+        capacity = request.form.get("capacity")
+        current_passengers = request.form.get("current_passengers")
+        licence_plate = request.form.get("licence_plate")
+        departure_hour = request.form.get("departure_hour")
+        service = Service(town,capacity,current_passengers,licence_plate,departure_hour)
+        db = current_app.config["db"]
+        db.add_service(service)
+        return redirect(url_for("list_services"))
+
+
+
+
+
+
+######transportation#####
+
 
