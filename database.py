@@ -145,7 +145,7 @@ class Database:
         services = []
         with dbapi2.connect(self.dbfile) as connection:
             cursor = connection.cursor()
-            query = "SELECT TOWN, CAPACITY, CURRENT_PASSENGERS, LICENCE_PLATE, DEPARTURE_HOUR FROM SERVICE ORDER BY ID"
+            query = "SELECT ID, TOWN, CAPACITY, CURRENT_PASSENGERS, LICENCE_PLATE, DEPARTURE_HOUR FROM SERVICE ORDER BY ID"
             cursor.execute(query)
             for service_key,town,capacity,current_passengers,licence_plate,departure_hour in cursor:
                 services.append((service_key, Service(town,capacity,current_passengers,licence_plate,departure_hour)))

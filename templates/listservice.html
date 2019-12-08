@@ -7,11 +7,11 @@
     {% if services %}
     <form action="" method="post" name="service_list">
     <table class="table is-striped is-fullwidth">
-      {% for levelservice_key, service in services %}
+      {% for service_key, service in services %}
       <tr>
         <td>
             <label class="checkbox">
-                <input type="checkbox" name="level_keys" value="{{ service_key }}"/>
+                <input type="checkbox" name="service_keys" value="{{ service_key }}"/>
               </label>
           <a href="{{ url_for('service_page', service_key=service_key) }}">
               {{ service.town }}
