@@ -50,8 +50,8 @@ def employee_add_page(): #add employee page
         weight = request.form.get("weight")
         employee = Employee(name, age, gender, height, weight)
         db = current_app.config["db"]
-        employee_key = db.add_employee(employee)
-        return redirect(url_for("employee_page", employee_key=employee_key))
+        db.add_employee(employee)
+        return redirect(url_for("list_page"))
 
 def validate_employee_form(form):
     form.data = {}
@@ -116,8 +116,8 @@ def jobtitle_add_page(): #add jobtitle page
         to_be_hired = request.form.get("to_be_hired")
         jobtitle = Jobtitle(title, is_executive, department, is_active, to_be_hired)
         db = current_app.config["db"]
-        jobtitle_key = db.add_jobtitle(jobtitle)
-        return redirect(url_for("jobtitle_page", jobtitle_key=jobtitle_key))
+        db.add_jobtitle(jobtitle)
+        return redirect(url_for("list_jobtitles"))
 
 def validate_jobtitle_form(form):
     form.data = {}
@@ -172,7 +172,7 @@ def level_add_page(): #add level page
         level = Level(title, experience, bonus_salary, is_director, is_manager)
         db = current_app.config["db"]
         level_key = db.add_level(level)
-        return redirect(url_for("level_page", level_key=level_key))
+        return redirect(url_for("list_levels"))
 
 def validate_level_form(form):
     form.data = {}
@@ -226,7 +226,7 @@ def service_add_page(): #add service page
         service = Service(town,capacity,current_passengers,licence_plate,departure_hour)
         db = current_app.config["db"]
         service_key = db.add_service(service)
-        return redirect(url_for("service_page", service_key=service_key))
+        return redirect(url_for("list_services"))
 
 def validate_service_form(form):
     form.data = {}
