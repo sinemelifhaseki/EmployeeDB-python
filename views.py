@@ -29,7 +29,7 @@ def employee_page(employee_key): #show the key employee page
     employee = db.get_employee(employee_key)
     if employee is None:
         abort(404)
-    return render_template("employee.html", employee=employee)
+    return render_template("employee.html", employee=employee, employee_key=employee_key)
 
 def employee_add_page(): #add employee page
     if request.method == "GET":
@@ -51,6 +51,28 @@ def employee_add_page(): #add employee page
         employee = Employee(name, age, gender, height, weight)
         db = current_app.config["db"]
         db.add_employee(employee)
+        return redirect(url_for("list_page"))
+
+def employee_update_page(employee_key):
+    if request.method == "GET":
+        values = {"name": "", "age": "", "gender":"","height":"","weight":""}
+        return render_template(
+            "employee_edit.html", min_age=18, max_age=62,values=values,employee_key=employee_key
+        )
+    else:
+        valid = validate_employee_form(request.form)
+        if not valid:
+            return render_template(
+            "employee_edit.html", min_age=18, max_age=62,values=request.form,employee_key=employee_key
+        )
+        name = request.form.data["name"]
+        age = request.form.data["age"]
+        gender = request.form.get("gender")
+        height = request.form.get("height")
+        weight = request.form.get("weight")
+        #employee = Employee(name, age, gender, height, weight)
+        db = current_app.config["db"]
+        db.update_employee(employee_key, name, age, gender, height, weight)
         return redirect(url_for("list_page"))
 
 def validate_employee_form(form):
@@ -118,6 +140,8 @@ def jobtitle_add_page(): #add jobtitle page
         db = current_app.config["db"]
         db.add_jobtitle(jobtitle)
         return redirect(url_for("list_jobtitles"))
+
+
 
 def validate_jobtitle_form(form):
     form.data = {}
