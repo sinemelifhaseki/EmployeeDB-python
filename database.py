@@ -113,11 +113,11 @@ class Database:
             cursor.execute(query, (level_key,))
             connection.commit()
 
-     def update_level(self, level_key, title, experience, bonus_salary, is_director, is_manager):
+    def update_level(self, level_key, title, experience, bonus_salary, is_director, is_manager):
         with dbapi2.connect(self.dbfile) as connection:
             cursor = connection.cursor()
             query = "UPDATE LEVEL SET LEVELNAME = %s, EXPERIENCE_YEAR_NEEDED = %s, BONUS_SALARY = %s, IS_DIRECTOR = %s, IS_MANAGER= %s WHERE (ID = %s)"
-            cursor.execute(query, (name, age, gender, height, weight, employee_key))
+            cursor.execute(query, (level_key, title, experience, bonus_salary, is_director, is_manager))
             connection.commit()
         return level_key
     
@@ -156,11 +156,11 @@ class Database:
             cursor.execute(query, (service_key,))
             connection.commit()
 
-     def update_service(self, service_key, town, capacity, current_passengers, licence_plate, departure_hour):
+    def update_service(self, service_key, town, capacity, current_passengers, licence_plate, departure_hour):
         with dbapi2.connect(self.dbfile) as connection:
             cursor = connection.cursor()
             query = "UPDATE SERVICE SET TOWN = %s, CAPACITY = %s, CURRENT_PASSENGERS = %s, LICENCE_PLATE = %s, DEPARTURE_HOUR= %s WHERE (ID = %s)"
-            cursor.execute(query, (name, age, gender, height, weight, employee_key))
+            cursor.execute(query, (service_key, town, capacity, current_passengers, licence_plate, departure_hour))
             connection.commit()
         return service_key
     
