@@ -27,6 +27,14 @@ class Database:
             cursor.execute(query, (employee_key,))
             connection.commit()
 
+    def update_employee(self, employee_key, name, age, gender, height, weight):
+        with dbapi2.connect(self.dbfile) as connection:
+            cursor = connection.cursor()
+            query = "UPDATE PERSON SET NAME = %s, AGE = %s, GENDER = %s, HEIGHT = %s, WEIGHT = %s WHERE (ID = %s)"
+            cursor.execute(query, (name, age, gender, height, weight, employee_key))
+            connection.commit()
+        return employee_key
+
     def get_employee(self, employee_key):
         with dbapi2.connect(self.dbfile) as connection:
             cursor = connection.cursor()
@@ -61,6 +69,14 @@ class Database:
             query = "DELETE FROM JOBTITLES WHERE (ID = %s)"
             cursor.execute(query, (jobtitle_key,))
             connection.commit()
+
+    def update_jobtitle(self, jobtitle_key, title, is_executive, department, is_active, to_be_hired):
+        with dbapi2.connect(self.dbfile) as connection:
+            cursor = connection.cursor()
+            query = "UPDATE JOBTITLES SET JOBNAME = %s, IS_EXECUTIVE = %s, DEPARTMENT = %s, IS_ACTIVE = %s, TO_BE_HIRED= %s WHERE (ID = %s)"
+            cursor.execute(query, (name, age, gender, height, weight, employee_key))
+            connection.commit()
+        return jobtitle_key
     
     def get_jobtitle(self, jobtitle_key):
         with dbapi2.connect(self.dbfile) as connection:
@@ -96,6 +112,14 @@ class Database:
             query = "DELETE FROM LEVEL WHERE (ID = %s)"
             cursor.execute(query, (level_key,))
             connection.commit()
+
+     def update_level(self, level_key, title, experience, bonus_salary, is_director, is_manager):
+        with dbapi2.connect(self.dbfile) as connection:
+            cursor = connection.cursor()
+            query = "UPDATE LEVEL SET LEVELNAME = %s, EXPERIENCE_YEAR_NEEDED = %s, BONUS_SALARY = %s, IS_DIRECTOR = %s, IS_MANAGER= %s WHERE (ID = %s)"
+            cursor.execute(query, (name, age, gender, height, weight, employee_key))
+            connection.commit()
+        return level_key
     
     def get_level(self, level_key):
         with dbapi2.connect(self.dbfile) as connection:
@@ -131,6 +155,14 @@ class Database:
             query = "DELETE FROM SERVICE WHERE (ID = %s)"
             cursor.execute(query, (service_key,))
             connection.commit()
+
+     def update_service(self, service_key, town, capacity, current_passengers, licence_plate, departure_hour):
+        with dbapi2.connect(self.dbfile) as connection:
+            cursor = connection.cursor()
+            query = "UPDATE SERVICE SET TOWN = %s, CAPACITY = %s, CURRENT_PASSENGERS = %s, LICENCE_PLATE = %s, DEPARTURE_HOUR= %s WHERE (ID = %s)"
+            cursor.execute(query, (name, age, gender, height, weight, employee_key))
+            connection.commit()
+        return service_key
     
     def get_service(self, service_key):
         with dbapi2.connect(self.dbfile) as connection:
