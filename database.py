@@ -74,7 +74,7 @@ class Database:
         with dbapi2.connect(self.dbfile) as connection:
             cursor = connection.cursor()
             query = "UPDATE JOBTITLES SET JOBNAME = %s, IS_EXECUTIVE = %s, DEPARTMENT = %s, IS_ACTIVE = %s, TO_BE_HIRED= %s WHERE (ID = %s)"
-            cursor.execute(query, (name, age, gender, height, weight, employee_key))
+            cursor.execute(query, (title, is_executive, department, is_active, to_be_hired, jobtitle_key))
             connection.commit()
         return jobtitle_key
     

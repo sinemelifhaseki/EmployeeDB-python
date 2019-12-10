@@ -141,7 +141,27 @@ def jobtitle_add_page(): #add jobtitle page
         db.add_jobtitle(jobtitle)
         return redirect(url_for("list_jobtitles"))
 
-
+def jobtitle_update_page(jobtitle_key): #edit jobtitle page
+    if request.method == "GET":
+        values = {"title": "", "is_executive": "","department": "","is_active": "","to_be_hired": ""}
+        return render_template(
+            "jobtitle_edit.html", values=values, jobtitle_key=jobtitle_key
+        )
+    else:
+        valid = validate_jobtitle_form(request.form)
+        if not valid:
+            return render_template(
+            "jobtitle_edit.html",values=request.form,jobtitle_key=jobtitle_key
+        )
+        title = request.form.data["title"]
+        is_executive = request.form.get("is_executive")
+        department = request.form.get("department")
+        is_active = request.form.get("is_active")
+        to_be_hired = request.form.get("to_be_hired")
+        #jobtitle = Jobtitle(title, is_executive, department, is_active, to_be_hired)
+        db = current_app.config["db"]
+        db.update_jobtitle(jobtitle_key, title, is_executive, department, is_active, to_be_hired)
+        return redirect(url_for("list_jobtitles"))
 
 def validate_jobtitle_form(form):
     form.data = {}
@@ -198,6 +218,28 @@ def level_add_page(): #add level page
         db.add_level(level)
         return redirect(url_for("list_levels"))
 
+def level_update_page(level_key): #edit level page
+    if request.method == "GET":
+        values = {"title": "","experience": "","bonus_salary": "","is_director": "","is_manager": ""}
+        return render_template(
+            "level_edit.html", values=values,level_key=level_key
+        )
+    else:
+        valid = validate_level_form(request.form)
+        if not valid:
+            return render_template(
+            "level_edit.html",values=request.form,level_key=level_key
+        )
+        title = request.form.data["title"]
+        experience = request.form.get("experience")
+        bonus_salary = request.form.get("bonus_salary")
+        is_director = request.form.get("is_director")
+        is_manager = request.form.get("is_manager")
+        #level = Level(title, experience, bonus_salary, is_director, is_manager)
+        db = current_app.config["db"]
+        db.update_level(level_key, title, experience, bonus_salary, is_director, is_manager)
+        return redirect(url_for("list_levels"))
+
 def validate_level_form(form):
     form.data = {}
     form.errors = {}
@@ -250,6 +292,28 @@ def service_add_page(): #add service page
         service = Service(town,capacity,current_passengers,licence_plate,departure_hour)
         db = current_app.config["db"]
         db.add_service(service)
+        return redirect(url_for("list_services"))
+
+def service_update_page(service_key): #edit service page
+    if request.method == "GET":
+        values = {"town": "","capacity": "","current_passengers": "","licence_plate": "","departure_hour": ""}
+        return render_template(
+            "service_edit.html", values=values,service_key=service_key
+        )
+    else:
+        valid = validate_service_form(request.form)
+        if not valid:
+            return render_template(
+            "service_edit.html",values=request.form,service_key=service_key
+        )
+        town = request.form.data["town"]
+        capacity = request.form.get("capacity")
+        current_passengers = request.form.get("current_passengers")
+        licence_plate = request.form.get("licence_plate")
+        departure_hour = request.form.get("departure_hour")
+        #service = Service(town,capacity,current_passengers,licence_plate,departure_hour)
+        db = current_app.config["db"]
+        db.update_service(service_key, town, capacity, current_passengers, licence_plate, departure_hour)
         return redirect(url_for("list_services"))
 
 def validate_service_form(form):
