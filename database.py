@@ -117,7 +117,7 @@ class Database:
         with dbapi2.connect(self.dbfile) as connection:
             cursor = connection.cursor()
             query = "UPDATE LEVEL SET LEVELNAME = %s, EXPERIENCE_YEAR_NEEDED = %s, BONUS_SALARY = %s, IS_DIRECTOR = %s, IS_MANAGER= %s WHERE (ID = %s)"
-            cursor.execute(query, (level_key, title, experience, bonus_salary, is_director, is_manager))
+            cursor.execute(query, (title, experience, bonus_salary, is_director, is_manager,level_key))
             connection.commit()
         return level_key
     
@@ -160,7 +160,7 @@ class Database:
         with dbapi2.connect(self.dbfile) as connection:
             cursor = connection.cursor()
             query = "UPDATE SERVICE SET TOWN = %s, CAPACITY = %s, CURRENT_PASSENGERS = %s, LICENCE_PLATE = %s, DEPARTURE_HOUR= %s WHERE (ID = %s)"
-            cursor.execute(query, (service_key, town, capacity, current_passengers, licence_plate, departure_hour))
+            cursor.execute(query, (town, capacity, current_passengers, licence_plate, departure_hour, service_key))
             connection.commit()
         return service_key
     
