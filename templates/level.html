@@ -25,5 +25,7 @@
         <td>{{ level.is_manager }}</td>
       </tr>
     </table>
-    
+    <span class="navbar-item">
+      <a class="button is-link" href="{{ url_for('level_update_page',level_key=level_key) }}">Edit Level</a>
+</span>
 {% endblock %}
