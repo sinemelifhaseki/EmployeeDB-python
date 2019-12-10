@@ -116,7 +116,7 @@ def jobtitle_page(jobtitle_key): #show the key jobtitle page
     jobtitle = db.get_jobtitle(jobtitle_key)
     if jobtitle is None:
         abort(404)
-    return render_template("jobtitle.html", jobtitle=jobtitle)
+    return render_template("jobtitle.html", jobtitle=jobtitle, jobtitle_key=jobtitle_key)
 
 
 def jobtitle_add_page(): #add jobtitle page
@@ -193,7 +193,7 @@ def level_page(level_key): #show the key level page
     level = db.get_level(level_key)
     if level is None:
         abort(404)
-    return render_template("level.html", level=level)
+    return render_template("level.html", level=level,level_key=level_key)
 
 
 def level_add_page(): #add level page
@@ -269,7 +269,7 @@ def service_page(service_key): #show the key service page
     service = db.get_service(service_key)
     if service is None:
         abort(404)
-    return render_template("service.html", service=service)
+    return render_template("service.html", service=service,service_key=service_key)
 
 
 def service_add_page(): #add service page
