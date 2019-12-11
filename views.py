@@ -467,7 +467,7 @@ def list_transportation(): #show the transportation
             service = db.get_service(transport.serviceid)
             transportation_key = personid
             personlist.append((transportation_key, person.name, service.town))
-        return render_template("listworkchart.html", personlist=personlist)
+        return render_template("listtransportation.html", personlist=personlist)
     else:
         form_transportation_keys = request.form.getlist("transportation_keys")
         for form_transportation_key in form_transportation_keys:
