@@ -1,0 +1,71 @@
+{% extends "layout.html" %}
+{% block title %}Edit Transportation{% endblock %}
+{% block content %}
+    <h1 class="title">Edit transportation</h1>
+
+    {% if peoplenames %}
+    <form action="" method="post" name="transportation_edit">
+      <div class="field">
+        <label for="name" class="label">Name</label>
+        <select name="name">
+            {% for peoplename in peoplenames %}
+            <option value="{{ peoplename }}" {%if loop.first%} SELECTED {%endif%}>{{peoplename}}</option>
+            {%endfor%}
+          </select>
+      </div>
+
+      <div class="field">
+        <label for="town" class="label">Town</label>
+        <select name="town">
+            {% for town in towns %}
+            <option value="{{ town }}" {%if loop.first%} SELECTED {%endif%}>{{town}}</option>
+            {%endfor%}
+          </select>
+      </div>
+
+      <div class="field">
+        <label for="uses_in_morning" class="label">Is transportation used in morning?</label>
+        <div class="control">
+          <input type="radio" name="uses_in_morning" value="true"> Yes <br>
+          <input type="radio" name="uses_in_morning" value="false"> No
+        </div>
+      </div>
+     
+      <div class="field">
+        <label for="uses_in_evening" class="label">Is transportation used in evening?</label>
+        <div class="control">
+          <input type="radio" name="uses_in_evening" value="true"> Yes <br>
+          <input type="radio" name="uses_in_evening" value="false"> No
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="seat_nr" class="label">Seat number</label>
+        <div class="control">
+          <input type="number" name="seat_nr" class="input" required="required"/>
+        </div>
+      </div>
+      
+      <div class="field">
+        <label for="service_fee" class="label">Service fee</label>
+        <div class="control">
+          <input type="number" name="service_fee" class="input" required="required"/>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="stop_name" class="label">Stop name</label>
+        <div class="control">
+          <input type="text" name="stop_name" class="input" required="required"/>
+        </div>
+      </div>
+
+      
+      <div class="field is-grouped">
+        <div class="control">
+          <button class="button is-primary is-small">Save</button>
+        </div>
+      </div>
+    </form>
+    {% endif %}
+{% endblock %}

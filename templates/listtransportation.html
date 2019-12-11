@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% block title %}Transportation{% endblock %}
+{% block content %}
+    <h1>WELCOME TO EmployeeDB</h1>
+    <p>Current transportation:</p>
+    
+    {% if personlist %}
+    <form action="" method="post" name="employee_list">
+    <table class="table is-striped is-fullwidth">
+      {% for transportation_key, name, town in personlist %}
+      <tr>
+        <td>
+            <label class="checkbox">
+                <input type="checkbox" name="transportation_keys" value="{{ transportation_key }}"/>
+              </label>
+        
+          <a href="{{ url_for('transportation_page', transportation_key=transportation_key) }}">
+              {{ name }}
+              ({{ town }})
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+    
+    <div class="field is-grouped">
+        <div class="control">
+          <button class="button is-danger is-small">Delete</button>
+        </div>
+      </div>
+    </form>
+    {% endif %}
+{% endblock %}

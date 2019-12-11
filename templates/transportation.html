@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block title %}Transportation{% endblock %}
+{% block content %}
+    <h1 class="title">Transportation</h1>
+
+    <table class="table">
+      <tr>
+        <th>Name:</th>
+        <td>{{ name }}</td>
+      </tr>
+      <tr>
+        <th>Town:</th>
+        <td>{{ town}}</td>
+      </tr>
+      <tr>
+        <th>Uses in morning:</th>
+        <td>{{ uses_in_morning }}</td>
+      </tr>
+      <tr>
+        <th>Uses in evening:</th>
+        <td>{{ uses_in_evening }}</td>
+      </tr>
+      <tr>
+        <th>Seat number:</th>
+        <td>{{ seat_nr }}</td>
+      </tr>
+      <tr>
+          <th>Service fee:</th>
+          <td>{{ service_fee }}</td>
+          </tr>
+        <tr>
+           <th>Stop name:</th>
+           <td>{{ stop_name }}</td>
+       </tr>
+    </table>
+    <span class="navbar-item">
+      <a class="button is-link" href="{{ url_for('transportation_update_page',transportation_key=transportation_key) }}">Edit Transportation</a>
+</span> 
+{% endblock %}

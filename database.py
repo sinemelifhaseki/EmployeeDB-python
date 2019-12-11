@@ -295,3 +295,11 @@ class Database:
             for personid,serviceid, uses_in_morning, uses_in_evening, seat_nr, service_fee, stop_name in cursor:
                 transportations.append((personid, Transportation(personid,serviceid, uses_in_morning, uses_in_evening, seat_nr, service_fee, stop_name)))
         return transportations
+
+    def update_transportation(self, personid, serviceid, uses_in_morning, uses_in_evening, seat_nr, service_fee, stop_name):
+        with dbapi2.connect(self.dbfile) as connection:
+            cursor = connection.cursor()
+            query = "UPDATE TRANSFORMATION SET SERVICEID = %s, USES_IN_MORNING = %s, USES_IN_EVENING = %s, SEAT_NUMBER = %s, SERVICE_FEE= %s, STOP_NAME = %s WHERE (PERSONID = %s)"
+            cursor.execute(query, (serviceid, uses_in_morning, uses_in_evening, seat_nr, service_fee, stop_name, personid))
+            connection.commit()
+        return personid
