@@ -39,6 +39,10 @@ def create_app():
     app.add_url_rule("/workchart/<int:workchart_key>/edit", view_func=views.workchart_update_page, methods=["GET", "POST"])
     app.add_url_rule("/new-workchart", view_func=views.workchart_add_page, methods=["GET", "POST"])
 
+    app.add_url_rule("/transportation", view_func=views.list_transportation, methods=["GET", "POST"])
+    app.add_url_rule("/transportation/<int:transportation_key>", view_func=views.transportation_page, methods=["GET", "POST"])
+    app.add_url_rule("/transportation/<int:transportation_key>/edit", view_func=views.transportation_update_page, methods=["GET", "POST"])
+    app.add_url_rule("/new-transportation", view_func=views.transportation_add_page, methods=["GET", "POST"])
 
     url = os.getenv("DATABASE_URL")
     db = Database(url)
