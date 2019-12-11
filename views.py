@@ -405,16 +405,16 @@ def workchart_update_page(workchart_key): #update workchart page
         values = {"name": "","jobtitle": "","levelname": "","salary": "","foodbudget": "", "total_yr_worked":"", "yr_in_comp":"", "qualify":""}
         peoplenames = []
         people = db.get_employees()
-        for employee_key, name, age, gender, height, weight in people:
-                peoplenames.append((name))
+        for employee_key, person in people:
+                peoplenames.append((person.name))
         jobnames = []
         jobs = db.get_jobtitles()
-        for jobtitle_key, title, is_executive, department, is_active, to_be_hired in jobs:
-                jobnames.append((title))
+        for jobtitle_key, job in jobs:
+                jobnames.append((job.title))
         levelnames = []
         levels = db.get_levels()
-        for level_key, title, experience, bonus_salary, is_director, is_manager in levels:
-                levelnames.append((title))
+        for level_key, lev in levels:
+                levelnames.append((lev.title))
         return render_template(
             "workchart_edit.html", values=values, peoplenames = peoplenames, jobnames = jobnames, levelnames = levelnames, workchart_key=workchart_key
         )
