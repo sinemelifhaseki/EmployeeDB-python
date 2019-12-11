@@ -481,7 +481,7 @@ def transportation_page(transportation_key): #show the key transportation page
     service = db.get_town(transportation.serviceid)
     if transportation is None:
         abort(404)
-    return render_template("transportation.html", name=person.name, town=service.town, salary=workchart.salary, foodbudget=workchart.foodbudget,total_yr_worked=workchart.total_yr_worked,yr_in_comp=workchart.yr_in_comp,qualify=workchart.qualify, transportation_key=transportation_key)
+    return render_template("transportation.html", name=person.name, town=service.town, uses_in_morning=transportation.uses_in_morning, uses_in_evening=transportation.uses_in_morning, seat_nr=transportation.seat_nr, service_fee=transportation.service_fee, stop_name=transportation.stop_name, transportation_key=transportation_key)
 
 def transportation_add_page(): #add transportation page
     db = current_app.config["db"]
