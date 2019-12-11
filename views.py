@@ -461,7 +461,7 @@ def list_transportation(): #show the transportation
     db = current_app.config["db"]
     if request.method == "GET":
         personlist = []
-        transportation = db.get_transportation()
+        transportation = db.get_transportations()
         for personid ,transport in transportation:
             person = db.get_employee(personid) 
             service = db.get_service(transport.serviceid)
