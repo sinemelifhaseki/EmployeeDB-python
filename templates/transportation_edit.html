@@ -5,17 +5,18 @@
 
     {% if peoplenames %}
     <form action="" method="post" name="transportation_edit">
-      <div class="field">
-        <label for="name" class="label">Name</label>
+      <div class="dropdown">
+        <label for="name" class="label">Name:  </label>
+        <br>
         <select name="name">
             {% for peoplename in peoplenames %}
             <option value="{{ peoplename }}" {%if loop.first%} SELECTED {%endif%}>{{peoplename}}</option>
             {%endfor%}
           </select>
       </div>
-
-      <div class="field">
-        <label for="town" class="label">Town</label>
+      <br>
+      <div class="dropdown">
+        <label for="town" class="label">Town: </label>
         <select name="town">
             {% for town in towns %}
             <option value="{{ town }}" {%if loop.first%} SELECTED {%endif%}>{{town}}</option>
