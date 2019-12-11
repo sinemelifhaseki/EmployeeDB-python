@@ -9,35 +9,29 @@
         <label for="name" class="label">Name</label>
         <select name="name">
             {% for peoplename in peoplenames %}
-            <option value="name">{{peoplename}}</option>
+            <option value="{{ peoplename }}" {%if loop.first%} SELECTED {%endif%}>{{peoplename}}</option>
             {%endfor%}
           </select>
       </div>
-
-      {% if 'name' in values.errors %}
-        <p class="help has-background-warning">
-            {{ values.errors['name'] }}
-        </p>
-      {% endif %}
 
       <div class="field">
         <label for="jobtitle" class="label">Job Title</label>
         <select name="jobtitle">
             {% for jobname in jobnames %}
-            <option value="jobtitle">{{jobname}}</option>
+            <option value="{{ jobname }}" {%if loop.first%} SELECTED {%endif%}>{{jobname}}</option>
             {%endfor%}
           </select>
       </div>
-
+      {% if jobnames %}
       <div class="field">
         <label for="levelname" class="label">Level</label>
         <select name="levelname">
             {% for levelname in levelnames %}
-            <option value="levelname">{{levelname}}</option>
+            <option value="{{levelname}}" {%if loop.first%} SELECTED {%endif%}>{{levelname}}</option>
             {%endfor%}
           </select>
       </div>
-
+     {% endif %}
       <div class="field">
         <label for="salary" class="label">Salary</label>
         <div class="control">

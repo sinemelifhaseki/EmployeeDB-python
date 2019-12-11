@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+{% block title %}Workchart{% endblock %}
+{% block content %}
+    <h1 class="title">Workchart</h1>
+
+    <table class="table">
+      <tr>
+        <th>Name:</th>
+        <td>{{ name }}</td>
+      </tr>
+      <tr>
+        <th>Job Title:</th>
+        <td>{{ jobtitle}}</td>
+      </tr>
+      <tr>
+        <th>Level:</th>
+        <td>{{ levelname }}</td>
+      </tr>
+      <tr>
+        <th>Salary:</th>
+        <td>{{ salary }}</td>
+      </tr>
+      <tr>
+        <th>Foodbudget:</th>
+        <td>{{ foodbudget }}</td>
+      </tr>
+      <tr>
+          <th>Total years worked:</th>
+          <td>{{ total_yr_worked }}</td>
+          </tr>
+        <tr>
+           <th>Years in this company:</th>
+           <td>{{ yr_in_comp }}</td>
+       </tr>
+       <tr>
+            <th>Qualifies for pension:</th>
+            <td>{{ qualify }}</td>
+        </tr>
+    </table>
+    <span class="navbar-item">
+      <a class="button is-link" href="{{ url_for('workchart_update_page',workchart_key=workchart_key) }}">Edit Workchart</a>
+</span> 
+{% endblock %}
