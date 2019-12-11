@@ -1,0 +1,92 @@
+{% extends "layout.html" %}
+{% block title %}Edit workchart{% endblock %}
+{% block content %}
+    <h1 class="title">Edit workchart</h1>
+
+    {% if peoplenames %}
+    <form action="" method="post" name="workchart_edit">
+      <div class="field">
+        <label for="name" class="label">Name</label>
+        <select name="name">
+            {% for peoplename in peoplenames %}
+            <option value="name">{{peoplename}}</option>
+            {%endfor%}
+          </select>
+      </div>
+
+      {% if 'name' in values.errors %}
+        <p class="help has-background-warning">
+            {{ values.errors['name'] }}
+        </p>
+      {% endif %}
+
+      <div class="field">
+        <label for="jobtitle" class="label">Job Title</label>
+        <select name="jobtitle">
+            {% for jobname in jobnames %}
+            <option value="jobtitle">{{jobname}}</option>
+            {%endfor%}
+          </select>
+      </div>
+
+      <div class="field">
+        <label for="levelname" class="label">Level</label>
+        <select name="levelname">
+            {% for levelname in levelnames %}
+            <option value="levelname">{{levelname}}</option>
+            {%endfor%}
+          </select>
+      </div>
+
+      <div class="field">
+        <label for="salary" class="label">Salary</label>
+        <div class="control">
+          <input type="number" name="salary" class="input" required="required"/>
+        </div>
+      </div>
+
+      {% if 'age' in values.errors %}
+        <p class="help has-background-warning">
+            {{ values.errors['age'] }}
+        </p>
+      {% endif %}
+
+      <div class="field">
+        <label for="foodbudget" class="label">Food budget</label>
+        <div class="control">
+          <input type="number" name="foodbudget" class="input" required="required"/>
+        </div>
+      </div>
+
+      
+      <div class="field">
+        <label for="total_yr_worked" class="label">Total years of work</label>
+        <div class="control">
+          <input type="number" name="total_yr_worked" class="input" required="required"/>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="yr_in_comp" class="label">Years worked in this company</label>
+        <div class="control">
+          <input type="number" name="yr_in_comp" class="input" required="required"/>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="qualify" class="label">Can qualify for pension?</label>
+        <div class="control">
+          <input type="radio" name="qualify" value="true"> Yes <br>
+          <input type="radio" name="qualify" value="false"> No
+        </div>
+      </div>  
+
+      
+      <div class="field is-grouped">
+        <div class="control">
+          <button class="button is-primary is-small">Save</button>
+        </div>
+      </div>
+    </form>
+    {% endif %}
+{% endblock %}

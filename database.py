@@ -53,6 +53,15 @@ class Database:
             for employee_key, name, age, gender, height, weight in cursor:
                 employees.append((employee_key, Employee(name, age, gender, height, weight)))
         return employees
+    
+    def get_employee_id(self, employee_name):
+        with dbapi2.connect(self.dbfile) as connection:
+            cursor = connection.cursor()
+            query = "SELECT ID FROM PERSON WHERE (NAME = %s)"
+            cursor.execute(query, (employee_name,))
+            employee_id = cursor.fetchone()
+        return employee_id
+
 ####JOBTITLES
     def add_jobtitle(self, jobtitle):
         with dbapi2.connect(self.dbfile) as connection:
@@ -96,6 +105,14 @@ class Database:
             for jobtitle_key, title, is_executive, department, is_active, to_be_hired in cursor:
                 jobtitles.append((jobtitle_key, Jobtitle(title,is_executive,department,is_active,to_be_hired)))
         return jobtitles
+
+    def get_jobtitle_id(self, jobtitle_name):
+        with dbapi2.connect(self.dbfile) as connection:
+            cursor = connection.cursor()
+            query = "SELECT ID FROM JOBTITLES WHERE (JOBNAME = %s)"
+            cursor.execute(query, (jobtitle_name,))
+            jobtitle_id = cursor.fetchone()
+        return jobtitle_id    
 ########LEVELS
     def add_level(self, level):
         with dbapi2.connect(self.dbfile) as connection:
@@ -139,6 +156,14 @@ class Database:
             for level_key, title, experience, bonus_salary, is_director, is_manager in cursor:
                 levels.append((level_key, Level(title, experience, bonus_salary, is_director, is_manager)))
         return levels
+    
+    def get_level_id(self, level_name):
+        with dbapi2.connect(self.dbfile) as connection:
+            cursor = connection.cursor()
+            query = "SELECT ID FROM LEVEL WHERE (LEVELNAME = %s)"
+            cursor.execute(query, (level_name,))
+            level_id = cursor.fetchone()
+        return level_id  
 ######SERVICE
     def add_service(self, service):
         with dbapi2.connect(self.dbfile) as connection:
@@ -183,6 +208,14 @@ class Database:
                 services.append((service_key, Service(town,capacity,current_passengers,licence_plate,departure_hour)))
         return services
 
+    def get_service_id(self, service_name):
+        with dbapi2.connect(self.dbfile) as connection:
+            cursor = connection.cursor()
+            query = "SELECT ID FROM SERVICE WHERE (TOWN = %s)"
+            cursor.execute(query, (service_name,))
+            service_id = cursor.fetchone()
+        return service_id  
+
 #####WORKCHART
     def add_workchart(self, workchart):
         with dbapi2.connect(self.dbfile) as connection:
@@ -218,6 +251,15 @@ class Database:
             for personid, jobid, levelid, salary, foodbudget, total_yr_worked, yr_in_comp, qualify in cursor:
                 workcharts.append((personid, Workchart(personid, jobid, levelid, salary, foodbudget, total_yr_worked, yr_in_comp, qualify)))
         return workcharts
+    
+    def update_workchart(self, personid, jobid, levelid, salary, foodbudget, total_yr_worked, yr_in_comp, qualify):
+        with dbapi2.connect(self.dbfile) as connection:
+            cursor = connection.cursor()
+            query = "UPDATE WORKCHART SET JOBID = %s, LEVELID = %s, SALARY = %s, FOOD_BUDGET = %s, TOTAL_YEARS_WORKED= %s, YEARS_IN_COMPANY = %s, QUALIFIES_FOR_PENSION = %s WHERE (PERSONID = %s)"
+            cursor.execute(query, (jobid, levelid, salary, foodbudget, total_yr_worked, yr_in_comp, qualify, personid))
+            connection.commit()
+        return personid
+    
 #####TRANSPORTATION
     def add_transportation(self, transportation):
         with dbapi2.connect(self.dbfile) as connection:

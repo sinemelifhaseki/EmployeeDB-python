@@ -3,6 +3,8 @@ from employee import Employee
 from level import Level
 from jobtitle import Jobtitle
 from service import Service
+from workchart import Workchart
+from transportation import Transportation
 
 from flask import abort, current_app, render_template, request, redirect, url_for
 
@@ -347,11 +349,51 @@ def workchart_page(workchart_key): #show the key workchart page
         abort(404)
     return render_template("workchart.html", workchart=workchart)
 
-###############BURDAYIM
 def workchart_add_page(): #add workchart page
     if request.method == "GET":
         db = current_app.config["db"]
-        values = {"personid": "","jobid": "","levelid": "","salary": "","foodbudget": "", "total_yr_worked":"", "yr_in_comp":"", "qualify":""}
+        values = {"name": "","jobtitle": "","levelname": "","salary": "","foodbudget": "", "total_yr_worked":"", "yr_in_comp":"", "qualify":""}
+        peoplenames = []
+        people = db.get_employees()
+        for employee_key, person in people:
+                peoplenames.append((person.name))
+        jobnames = []
+        jobs = db.get_jobtitles()
+        for jobtitle_key, job in jobs:
+                jobnames.append((job.title))
+        levelnames = []
+        levels = db.get_levels()
+        for level_key, lev in levels:
+                levelnames.append((lev.title))
+        return render_template(
+            "workchart_edit.html", values=values, peoplenames = peoplenames, jobnames = jobnames, levelnames = levelnames
+        )
+    else:
+        valid = validate_workchart_form(request.form)
+        if not valid:
+            return render_template(
+            "workchart_edit.html",values=request.form,
+        )
+        name = request.form.data["name"]
+        personid = db.get_employee_id(name)
+        jobtitle = request.form.get("jobtitle")
+        jobid = db.get_jobtitle_id(jobtitle)
+        levelname = request.form.get("levelname")
+        levelid = db.get_level_id(levelname)
+        salary = request.form.data["salary"]
+        foodbudget = request.form.get("foodbudget")
+        total_yr_worked = request.form.get("total_yr_worked")
+        yr_in_comp = request.form.get("yr_in_comp")
+        qualify = request.form.get("qualify")
+        workchart = Workchart(personid, jobid, levelid, salary, foodbudget, total_yr_worked, yr_in_comp, qualify)
+        db = current_app.config["db"]
+        db.add_workchart(workchart)
+        return redirect(url_for("list_workchart"))
+
+def workchart_update_page(workchart_key): #update workchart page
+    if request.method == "GET":
+        db = current_app.config["db"]
+        values = {"name": "","jobtitle": "","levelname": "","salary": "","foodbudget": "", "total_yr_worked":"", "yr_in_comp":"", "qualify":""}
         peoplenames = []
         people = db.get_employees()
         for employee_key, name, age, gender, height, weight in people:
@@ -365,25 +407,48 @@ def workchart_add_page(): #add workchart page
         for level_key, title, experience, bonus_salary, is_director, is_manager in levels:
                 levelnames.append((title))
         return render_template(
-            "workchart_edit.html", values=values, peoplenames = peoplenames, jobnames = jobnames, levelnames = levelnames
+            "workchart_edit.html", values=values, peoplenames = peoplenames, jobnames = jobnames, levelnames = levelnames, workchart_key=workchart_key
         )
     else:
         valid = validate_workchart_form(request.form)
         if not valid:
             return render_template(
-            "workchart_edit.html",values=request.form,
+            "workchart_edit.html",values=request.form, workchart_key=workchart_key
         )
-        personid = request.form.data["personid"]
-        capacity = request.form.get("capacity")
-        current_passengers = request.form.get("current_passengers")
-        licence_plate = request.form.get("licence_plate")
-        departure_hour = request.form.get("departure_hour")
-        service = Service(town,capacity,current_passengers,licence_plate,departure_hour)
+        name = request.form.data["name"]
+        personid = db.get_employee_id(name)
+        jobtitle = request.form.get("jobtitle")
+        jobid = db.get_jobtitle_id(jobtitle)
+        levelname = request.form.get("levelname")
+        levelid = db.get_level_id(levelname)
+        salary = request.form.data["salary"]
+        foodbudget = request.form.get("foodbudget")
+        total_yr_worked = request.form.get("total_yr_worked")
+        yr_in_comp = request.form.get("yr_in_comp")
+        qualify = request.form.get("qualify")
+        #workchart = Workchart(personid, jobid, levelid, salary, foodbudget, total_yr_worked, yr_in_comp, qualify)
         db = current_app.config["db"]
-        db.add_service(service)
-        return redirect(url_for("list_services"))
+        db.update_workchart(personid, jobid, levelid, salary, foodbudget, total_yr_worked, yr_in_comp, qualify)
+        return redirect(url_for("list_workchart"))
 
+def validate_workchart_form(form):
+    form.data = {}
+    form.errors = {}
 
+    form_title = form.get("name", "").strip()
+    if len(form_title) == 0:
+        form.errors["name"] = "Name cannot be blank!"
+    else:
+        form.data["name"] = form_title
+
+    form_salary = form.get("salary")
+    if not form_salary.isdigit():
+        form.errors["salary"] = "Salary must consist of digits only."
+    else:
+        salary = int(form_salary)
+        form.data["salary"] = salary
+
+    return len(form.errors) == 0
 
 
 

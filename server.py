@@ -34,6 +34,12 @@ def create_app():
     app.add_url_rule("/services/<int:service_key>/edit", view_func=views.service_update_page, methods=["GET", "POST"])
     app.add_url_rule("/new-service", view_func=views.service_add_page, methods=["GET", "POST"])
 
+    app.add_url_rule("/workchart", view_func=views.list_workchart, methods=["GET", "POST"])
+    app.add_url_rule("/workchart/<int:workchart_key>", view_func=views.workchart_page, methods=["GET", "POST"])
+    app.add_url_rule("/workchart/<int:workchart_key>/edit", view_func=views.workchart_update_page, methods=["GET", "POST"])
+    app.add_url_rule("/new-workchart", view_func=views.workchart_add_page, methods=["GET", "POST"])
+
+
     url = os.getenv("DATABASE_URL")
     db = Database(url)
     app.config["db"] = db
