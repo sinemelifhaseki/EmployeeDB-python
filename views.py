@@ -457,5 +457,118 @@ def validate_workchart_form(form):
 
 
 ######transportation#####
+def list_transportation(): #show the transportation
+    db = current_app.config["db"]
+    if request.method == "GET":
+        personlist = []
+        transportation = db.get_transportation()
+        for personid ,transport in transportation:
+            person = db.get_employee(personid) 
+            service = db.get_service(transport.serviceid)
+            transportation_key = personid
+            personlist.append((transportation_key, person.name, service.town))
+        return render_template("listworkchart.html", personlist=personlist)
+    else:
+        form_transportation_keys = request.form.getlist("transportation_keys")
+        for form_transportation_key in form_transportation_keys:
+            db.delete_transportation(int(form_transportation_key))
+        return redirect(url_for("list_transportation"))
+
+def transportation_page(transportation_key): #show the key transportation page
+    db = current_app.config["db"]
+    transportation = db.get_transportation(transportation_key)
+    person = db.get_employee(transportation.personid) 
+    service = db.get_town(transportation.serviceid)
+    if transportation is None:
+        abort(404)
+    return render_template("transportation.html", name=person.name, town=service.town, salary=workchart.salary, foodbudget=workchart.foodbudget,total_yr_worked=workchart.total_yr_worked,yr_in_comp=workchart.yr_in_comp,qualify=workchart.qualify, transportation_key=transportation_key)
+
+def transportation_add_page(): #add transportation page
+    db = current_app.config["db"]
+    if request.method == "GET":
+        values = {"name": "","town": "","uses_in_morning": "","uses_in_evening": "","seat_nr": "", "service_fee":"", "stop_name":""}
+        peoplenames = []
+        people = db.get_employees()
+        for employee_key, person in people:
+                peoplenames.append((person.name))
+        towns = []
+        services = db.get_services()
+        for service_key, serv in services:
+                towns.append((serv.town))        
+        return render_template(
+            "transportation_edit.html", values=values, peoplenames = peoplenames, towns = towns
+        )
+    else:
+        valid = validate_transportation_form(request.form)
+        if not valid:
+            return render_template(
+            "transportation_edit.html",values=request.form,
+        )
+        name = request.form.get("name")
+        personid = db.get_employee_id(name)
+        town = request.form.get("town")
+        serviceid = db.get_service_id(town)
+        uses_in_morning = request.form.get("uses_in_morning")
+        uses_in_evening = request.form.get("uses_in_evening")
+        seat_nr = request.form.data["seat_nr"]
+        service_fee = request.form.data["service_fee"]
+        stop_name = request.form.get("stop_name")
+        transportation = Transportation(personid, serviceid, uses_in_morning, uses_in_evening, seat_nr, service_fee, stop_name)
+        db = current_app.config["db"]
+        db.add_transportation(transportation)
+        return redirect(url_for("list_transportation"))
+
+def transportation_update_page(transportation_key): #update workchart page
+    db = current_app.config["db"]
+    if request.method == "GET":
+        values = {"name": "","town": "","uses_in_morning": "","uses_in_evening": "","seat_nr": "", "service_fee":"", "stop_name":""}
+        peoplenames = []
+        people = db.get_employees()
+        for employee_key, person in people:
+                peoplenames.append((person.name))
+        towns = []
+        services = db.get_services()
+        for service_key, serv in services:
+                towns.append((serv.town))
+        return render_template(
+            "transportation_edit.html", values=values, peoplenames = peoplenames, towns = towns, transportation_key=transportation_key
+        )
+    else:
+        valid = validate_transportation_form(request.form)
+        if not valid:
+            return render_template(
+            "transportation_edit.html",values=request.form, transportation_key=transportatiton_key
+        )
+        name = request.form.get("name")
+        personid = db.get_employee_id(name)
+        town = request.form.get("town")
+        serviceid = db.get_service_id(town)
+        uses_in_morning = request.form.get("uses_in_morning")
+        uses_in_evening = request.form.get("uses_in_evening")
+        seat_nr = request.form.data["seat_nr"]
+        service_fee = request.form.data["service_fee"]
+        stop_name = request.form.get("stop_name")
+        db = current_app.config["db"]
+        db.update_transportation(personid, serviceid, uses_in_morning, uses_in_evening, seat_nr, service_fee, stop_name)
+        return redirect(url_for("list_transportation"))
+
+def validate_transportation_form(form):
+    form.data = {}
+    form.errors = {}
+
+    form_seat = form.get("seat_nr")
+    if not form_seat.isdigit():
+        form.errors["seat_nr"] = "Seat number must consist of digits only."
+    else:
+        seat_nr = int(form_seat)
+        form.data["seat_nr"] = seat_nr
+
+    form_fee = form.get("service_fee")
+    if not form_fee.isdigit():
+        form.errors["service_fee"] = "Service fee must consist of digits only."
+    else:
+        service_fee = int(form_fee)
+        form.data["service_fee"] = service_fee
 
 
+    return len(form.errors) == 0
