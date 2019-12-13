@@ -139,7 +139,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'itucsdb18nn', 'ITUCSDB1916 Documentation',
+    (master_doc, 'itucsdb1916', 'ITUCSDB1916 Documentation',
      [author], 1)
 ]
 
