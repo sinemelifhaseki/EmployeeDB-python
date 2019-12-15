@@ -37,7 +37,10 @@
             <td>{{ qualify }}</td>
         </tr>
     </table>
+
+    {% if current_user.is_authenticated %}
     <span class="navbar-item">
       <a class="button is-link" href="{{ url_for('workchart_update_page',workchart_key=workchart_key) }}">Edit Workchart</a>
-</span> 
+    </span> 
+    {% endif %}
 {% endblock %}

@@ -10,10 +10,11 @@
       {% for transportation_key, name, town in personlist %}
       <tr>
         <td>
+            {% if current_user.is_admin %}
             <label class="checkbox">
                 <input type="checkbox" name="transportation_keys" value="{{ transportation_key }}"/>
               </label>
-        
+              {% endif %}
           <a href="{{ url_for('transportation_page', transportation_key=transportation_key) }}">
               {{ name }}
               ({{ town }})
@@ -22,12 +23,13 @@
       </tr>
       {% endfor %}
     </table>
-    
+    {% if current_user.is_admin %}
     <div class="field is-grouped">
         <div class="control">
           <button class="button is-danger is-small">Delete</button>
         </div>
       </div>
+      {% endif %}
     </form>
     {% endif %}
 {% endblock %}

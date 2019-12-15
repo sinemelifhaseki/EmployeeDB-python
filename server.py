@@ -1,19 +1,29 @@
 import os
+from flask_login import LoginManager
 from datetime import datetime
 from flask import Flask, render_template
 import views
+from user import get_user
 from database import Database
 from employee import Employee
 from jobtitle import Jobtitle
 from level import Level
 from service import Service
 
+lm = LoginManager()
+
+@lm.user_loader
+def load_user(user_id):
+    return get_user(user_id)
 
 def create_app():
     app = Flask(__name__)
-    #app.config.from_object("settings")
+    app.config.from_object("settings")
 
     app.add_url_rule("/", view_func=views.home_page)
+    app.add_url_rule("/login", view_func=views.login_page, methods=["GET", "POST"])
+    app.add_url_rule("/logout", view_func=views.logout_page)
+    
     app.add_url_rule("/employees", view_func=views.list_page, methods=["GET", "POST"])
     app.add_url_rule("/employees/<int:employee_key>", view_func=views.employee_page,methods=["GET", "POST"])
     app.add_url_rule("/employees/<int:employee_key>/edit", view_func=views.employee_update_page,methods=["GET", "POST"])
@@ -44,6 +54,9 @@ def create_app():
     app.add_url_rule("/transportation/<int:transportation_key>/edit", view_func=views.transportation_update_page, methods=["GET", "POST"])
     app.add_url_rule("/new-transportation", view_func=views.transportation_add_page, methods=["GET", "POST"])
 
+    lm.init_app(app)
+    lm.login_view = "login_page"
+
     url = os.getenv("DATABASE_URL")
     db = Database(url)
     app.config["db"] = db
@@ -55,4 +68,4 @@ app=create_app()
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()

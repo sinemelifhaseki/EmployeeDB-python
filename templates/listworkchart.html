@@ -10,9 +10,11 @@
       {% for workchart_key, name, job in personlist %}
       <tr>
         <td>
+            {% if current_user.is_admin %}
             <label class="checkbox">
                 <input type="checkbox" name="workchart_keys" value="{{ workchart_key }}"/>
               </label>
+              {% endif %}
         
           <a href="{{ url_for('workchart_page', workchart_key=workchart_key) }}">
               {{ name }}
@@ -22,12 +24,13 @@
       </tr>
       {% endfor %}
     </table>
-    
+    {% if current_user.is_admin %}
     <div class="field is-grouped">
         <div class="control">
           <button class="button is-danger is-small">Delete</button>
         </div>
       </div>
+      {% endif %}
     </form>
     {% endif %}
 {% endblock %}

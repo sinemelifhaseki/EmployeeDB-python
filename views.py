@@ -1,3 +1,4 @@
+from passlib.hash import pbkdf2_sha256 as hasher
 from datetime import datetime
 from employee import Employee
 from level import Level
@@ -5,13 +6,39 @@ from jobtitle import Jobtitle
 from service import Service
 from workchart import Workchart
 from transportation import Transportation
+from forms import LoginForm
+from flask_wtf import FlaskForm 
+from user import User, get_user
 
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user   
 from flask import abort, current_app, render_template, request, redirect, url_for
 
 def home_page():
     today = datetime.today()
     day_name = today.strftime("%A")
     return render_template("home.html", day=day_name)
+
+##############logging##################
+def login_page():
+    form = LoginForm()
+    if form.validate_on_submit():
+        username = form.data["username"]
+        user = get_user(username)
+        if user is not None:
+            password = form.data["password"]
+            if hasher.verify(password, user.password):
+                login_user(user)
+                #flash("You have logged in.")
+                next_page = request.args.get("next", url_for("home_page"))
+                return redirect(next_page)
+        #flash("Invalid credentials.")
+    return render_template("login.html", form=form)
+
+
+def logout_page():
+    logout_user()
+    #flash("You have logged out.")
+    return redirect(url_for("home_page"))
 
 #############employee################
 
@@ -21,6 +48,8 @@ def list_page(): #show the employees
         employees = db.get_employees()
         return render_template("listemployee.html", employees=sorted(employees))
     else:
+        if not current_user.is_admin:
+            abort(401)
         form_employee_keys = request.form.getlist("employee_keys")
         for form_employee_key in form_employee_keys:
             db.delete_employee(int(form_employee_key))
@@ -33,7 +62,10 @@ def employee_page(employee_key): #show the key employee page
         abort(404)
     return render_template("employee.html", employee=employee, employee_key=employee_key)
 
+@login_required
 def employee_add_page(): #add employee page
+    if not current_user.is_admin:
+        abort(401)
     if request.method == "GET":
         values = {"name": "", "age": "", "gender":"","height":"","weight":""}
         return render_template(
@@ -55,6 +87,7 @@ def employee_add_page(): #add employee page
         db.add_employee(employee)
         return redirect(url_for("list_page"))
 
+@login_required
 def employee_update_page(employee_key):
     if request.method == "GET":
         values = {"name": "", "age": "", "gender":"","height":"","weight":""}
@@ -108,6 +141,8 @@ def list_jobtitles(): #show the jobtitles
         jobtitles = db.get_jobtitles()
         return render_template("listjobtitle.html", jobtitles=sorted(jobtitles))
     else:
+        if not current_user.is_admin:
+            abort(401)
         form_jobtitle_keys = request.form.getlist("jobtitle_keys")
         for form_jobtitle_key in form_jobtitle_keys:
             db.delete_jobtitle(int(form_jobtitle_key))
@@ -120,8 +155,10 @@ def jobtitle_page(jobtitle_key): #show the key jobtitle page
         abort(404)
     return render_template("jobtitle.html", jobtitle=jobtitle, jobtitle_key=jobtitle_key)
 
-
+@login_required
 def jobtitle_add_page(): #add jobtitle page
+    if not current_user.is_admin:
+        abort(401)
     if request.method == "GET":
         values = {"title": "", "is_executive": "","department": "","is_active": "","to_be_hired": ""}
         return render_template(
@@ -143,6 +180,7 @@ def jobtitle_add_page(): #add jobtitle page
         db.add_jobtitle(jobtitle)
         return redirect(url_for("list_jobtitles"))
 
+@login_required
 def jobtitle_update_page(jobtitle_key): #edit jobtitle page
     if request.method == "GET":
         values = {"title": "", "is_executive": "","department": "","is_active": "","to_be_hired": ""}
@@ -185,6 +223,8 @@ def list_levels(): #show the levels
         levels = db.get_levels()
         return render_template("listlevel.html", levels=sorted(levels))
     else:
+        if not current_user.is_admin:
+            abort(401)
         form_level_keys = request.form.getlist("level_keys")
         for form_level_key in form_level_keys:
             db.delete_level(int(form_level_key))
@@ -197,8 +237,10 @@ def level_page(level_key): #show the key level page
         abort(404)
     return render_template("level.html", level=level,level_key=level_key)
 
-
+@login_required
 def level_add_page(): #add level page
+    if not current_user.is_admin:
+        abort(401)
     if request.method == "GET":
         values = {"title": "","experience": "","bonus_salary": "","is_director": "","is_manager": ""}
         return render_template(
@@ -220,6 +262,7 @@ def level_add_page(): #add level page
         db.add_level(level)
         return redirect(url_for("list_levels"))
 
+@login_required
 def level_update_page(level_key): #edit level page
     if request.method == "GET":
         values = {"title": "","experience": "","bonus_salary": "","is_director": "","is_manager": ""}
@@ -261,6 +304,8 @@ def list_services(): #show the services
         services = db.get_services()
         return render_template("listservice.html", services=sorted(services))
     else:
+        if not current_user.is_admin:
+            abort(401)
         form_service_keys = request.form.getlist("service_keys")
         for form_service_key in form_service_keys:
             db.delete_service(int(form_service_key))
@@ -273,8 +318,10 @@ def service_page(service_key): #show the key service page
         abort(404)
     return render_template("service.html", service=service,service_key=service_key)
 
-
+@login_required
 def service_add_page(): #add service page
+    if not current_user.is_admin:
+        abort(401)
     if request.method == "GET":
         values = {"town": "","capacity": "","current_passengers": "","licence_plate": "","departure_hour": ""}
         return render_template(
@@ -296,6 +343,7 @@ def service_add_page(): #add service page
         db.add_service(service)
         return redirect(url_for("list_services"))
 
+@login_required
 def service_update_page(service_key): #edit service page
     if request.method == "GET":
         values = {"town": "","capacity": "","current_passengers": "","licence_plate": "","departure_hour": ""}
@@ -343,6 +391,8 @@ def list_workchart(): #show the workchart
             personlist.append((workchart_key, person.name, job.title))
         return render_template("listworkchart.html", personlist=personlist)
     else:
+        if not current_user.is_admin:
+            abort(401)
         form_workchart_keys = request.form.getlist("workchart_keys")
         for form_workchart_key in form_workchart_keys:
             db.delete_workchart(int(form_workchart_key))
@@ -358,7 +408,10 @@ def workchart_page(workchart_key): #show the key workchart page
         abort(404)
     return render_template("workchart.html", name=person.name, jobtitle=job.title, levelname=level.title, salary=workchart.salary, foodbudget=workchart.foodbudget,total_yr_worked=workchart.total_yr_worked,yr_in_comp=workchart.yr_in_comp,qualify=workchart.qualify, workchart_key=workchart_key)
 
+@login_required
 def workchart_add_page(): #add workchart page
+    if not current_user.is_admin:
+        abort(401)
     db = current_app.config["db"]
     if request.method == "GET":
         values = {"name": "","jobtitle": "","levelname": "","salary": "","foodbudget": "", "total_yr_worked":"", "yr_in_comp":"", "qualify":""}
@@ -399,6 +452,7 @@ def workchart_add_page(): #add workchart page
         db.add_workchart(workchart)
         return redirect(url_for("list_workchart"))
 
+@login_required
 def workchart_update_page(workchart_key): #update workchart page
     db = current_app.config["db"]
     if request.method == "GET":
@@ -469,6 +523,8 @@ def list_transportation(): #show the transportation
             personlist.append((transportation_key, person.name, service.town))
         return render_template("listtransportation.html", personlist=personlist)
     else:
+        if not current_user.is_admin:
+            abort(401)
         form_transportation_keys = request.form.getlist("transportation_keys")
         for form_transportation_key in form_transportation_keys:
             db.delete_transportation(int(form_transportation_key))
@@ -483,7 +539,10 @@ def transportation_page(transportation_key): #show the key transportation page
         abort(404)
     return render_template("transportation.html", name=person.name, town=service.town, uses_in_morning=transportation.uses_in_morning, uses_in_evening=transportation.uses_in_morning, seat_nr=transportation.seat_nr, service_fee=transportation.service_fee, stop_name=transportation.stop_name, transportation_key=transportation_key)
 
+@login_required
 def transportation_add_page(): #add transportation page
+    if not current_user.is_admin:
+        abort(401)
     db = current_app.config["db"]
     if request.method == "GET":
         values = {"name": "","town": "","uses_in_morning": "","uses_in_evening": "","seat_nr": "", "service_fee":"", "stop_name":""}
@@ -518,6 +577,7 @@ def transportation_add_page(): #add transportation page
         db.add_transportation(transportation)
         return redirect(url_for("list_transportation"))
 
+@login_required
 def transportation_update_page(transportation_key): #update workchart page
     db = current_app.config["db"]
     if request.method == "GET":

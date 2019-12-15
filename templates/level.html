@@ -25,7 +25,10 @@
         <td>{{ level.is_manager }}</td>
       </tr>
     </table>
+
+    {% if current_user.is_authenticated %}
     <span class="navbar-item">
       <a class="button is-link" href="{{ url_for('level_update_page',level_key=level_key) }}">Edit Level</a>
-</span>
+    </span>
+    {% endif %}
 {% endblock %}

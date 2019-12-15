@@ -10,9 +10,11 @@
       {% for level_key, level in levels %}
       <tr>
         <td>
+            {% if current_user.is_admin %}
             <label class="checkbox">
                 <input type="checkbox" name="level_keys" value="{{ level_key }}"/>
               </label>
+              {% endif %}
           <a href="{{ url_for('level_page', level_key=level_key) }}">
               {{ level.title }}
           </a>
@@ -20,12 +22,13 @@
       </tr>
       {% endfor %}
     </table>
-    
+    {% if current_user.is_admin %}
     <div class="field is-grouped">
         <div class="control">
           <button class="button is-danger is-small">Delete</button>
         </div>
       </div>
+      {% endif %}
     </form>
     {% endif %}
 {% endblock %}

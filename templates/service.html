@@ -25,7 +25,10 @@
         <td>{{ service.departure_hour }}</td>
       </tr>
     </table>
+   
+    {% if current_user.is_authenticated %}
     <span class="navbar-item">
       <a class="button is-link" href="{{ url_for('service_update_page',service_key=service_key) }}">Edit Service</a>
-</span>
+    </span>
+    {% endif %}
 {% endblock %}

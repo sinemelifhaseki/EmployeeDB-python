@@ -33,7 +33,10 @@
            <td>{{ stop_name }}</td>
        </tr>
     </table>
+
+    {% if current_user.is_authenticated %}
     <span class="navbar-item">
       <a class="button is-link" href="{{ url_for('transportation_update_page',transportation_key=transportation_key) }}">Edit Transportation</a>
-</span> 
+    </span> 
+    {% endif %}
 {% endblock %}
