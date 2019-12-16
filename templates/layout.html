@@ -42,8 +42,9 @@
                             <a class="button is-link" href="{{ url_for('level_add_page') }}">Add level</a>
                     </span>
                     {% endif %}
+                    
                     <span class="navbar-item">
-                        <a class="button is-link" href="{{ url_for('list_services') }}">List Services</a>
+                        <a class="button is-link" href="{{ url_for('list_services') }}"><br>List Services</a>
                         </span>
                         {% if current_user.is_admin %}
                         <span class="navbar-item">
