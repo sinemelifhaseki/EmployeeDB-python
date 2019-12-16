@@ -90,7 +90,7 @@
                 {% if not current_user.is_authenticated %}
                         <a class="button is-link" href="{{ url_for('login_page') }}">Log in</a>
                 {% else %}
-                        <p style="color:rgb(172, 230, 198);" style="background-color:Tomato;">{{ current_user.username }}</p>
+                        <p style="background-color:Tomato;">{{ current_user.username }}</p>
                         <a class="button is-link" href="{{ url_for('logout_page') }}">Log out</a>
                 {% endif %}
                 </span>
