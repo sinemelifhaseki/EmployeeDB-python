@@ -10,7 +10,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
         </head>
-  <body>
+  <body width=100px>
     <header>
         <nav class="navbar" aria-label="main navigation">
             <div class="navbar-brand">
@@ -44,7 +44,7 @@
                     {% endif %}
                     
                     <span class="navbar-item">
-                        <a class="button is-link" href="{{ url_for('list_services') }}"><br>List Services</a>
+                        <a class="button is-link" href="{{ url_for('list_services') }}">List Services</a>
                         </span>
                         {% if current_user.is_admin %}
                         <span class="navbar-item">
